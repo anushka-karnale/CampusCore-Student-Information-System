@@ -19,4 +19,4 @@ ALLOWED_EXTENSIONS = {
     "png"
 }
 
-SECRET_KEY = "campuscore_secret_key"
+SECRET_KEY = os.environ.get("SECRET_KEY") or os.urandom(32).hex()
