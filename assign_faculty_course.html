@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusCore | Assign Course</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f5f7f6;
+
+            color: #26332f;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .admin-sidebar {
+
+            width: 245px;
+
+            background: #1f6f5b;
+
+            color: white;
+
+            padding: 25px 18px;
+
+            position: fixed;
+
+            left: 0;
+
+            top: 0;
+
+            bottom: 0;
+
+            overflow-y: auto;
+        }
+
+
+        .sidebar-brand {
+
+            text-align: center;
+
+            padding-bottom: 25px;
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.2);
+        }
+
+
+        .sidebar-brand .icon {
+
+            font-size: 35px;
+        }
+
+
+        .sidebar-brand h2 {
+
+            margin: 8px 0 3px;
+
+            font-size: 22px;
+        }
+
+
+        .sidebar-brand span {
+
+            font-size: 12px;
+
+            opacity: 0.8;
+        }
+
+
+        .sidebar-menu {
+
+            margin-top: 28px;
+        }
+
+
+        .sidebar-menu a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 13px 14px;
+
+            margin-bottom: 7px;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            transition: 0.2s ease;
+        }
+
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+
+            background:
+                rgba(255,255,255,0.15);
+        }
+
+
+        .sidebar-menu .logout {
+
+            margin-top: 25px;
+
+            background:
+                rgba(0,0,0,0.12);
+        }
+
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .page-content {
+
+            margin-left: 245px;
+
+            width: calc(100% - 245px);
+
+            padding: 32px 38px;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .page-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .page-title h1 {
+
+            margin: 0;
+
+            font-size: 28px;
+
+            color: #26332f;
+        }
+
+
+        .page-title p {
+
+            margin: 7px 0 0;
+
+            color: #718079;
+
+            font-size: 14px;
+        }
+
+
+        .back-btn {
+
+            display: inline-block;
+
+            padding: 10px 17px;
+
+            background: white;
+
+            color: #1f6f5b;
+
+            border: 1px solid #dce5e1;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .back-btn:hover {
+
+            background: #f0f6f3;
+        }
+
+
+        /* =========================
+           FACULTY INFO
+        ========================= */
+
+        .faculty-info {
+
+            background: white;
+
+            border: 1px solid #e5ece8;
+
+            border-radius: 12px;
+
+            padding: 20px 22px;
+
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.05);
+        }
+
+
+        .faculty-info-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .faculty-avatar {
+
+            width: 52px;
+
+            height: 52px;
+
+            border-radius: 50%;
+
+            background: #e8f3ef;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+        }
+
+
+        .faculty-info h2 {
+
+            margin: 0;
+
+            font-size: 20px;
+
+            color: #26332f;
+        }
+
+
+        .faculty-info p {
+
+            margin: 5px 0 0;
+
+            color: #718079;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           FORM CARD
+        ========================= */
+
+        .form-card {
+
+            background: white;
+
+            border: 1px solid #e5ece8;
+
+            border-radius: 12px;
+
+            padding: 25px;
+
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.05);
+        }
+
+
+        .section-title {
+
+            margin: 0 0 5px;
+
+            font-size: 19px;
+
+            color: #26332f;
+        }
+
+
+        .section-subtitle {
+
+            margin: 0 0 22px;
+
+            color: #718079;
+
+            font-size: 13px;
+        }
+
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .form-group label {
+
+            margin-bottom: 7px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #3c4945;
+        }
+
+
+        .form-group select {
+
+            width: 100%;
+
+            padding: 11px 12px;
+
+            border: 1px solid #dce5e1;
+
+            border-radius: 7px;
+
+            background: white;
+
+            color: #34423d;
+
+            font-size: 14px;
+
+            outline: none;
+        }
+
+
+        .form-group select:focus {
+
+            border-color: #1f6f5b;
+
+            box-shadow:
+                0 0 0 2px rgba(31,111,91,0.08);
+        }
+
+
+        .form-action {
+
+            margin-top: 22px;
+
+            display: flex;
+
+            justify-content: flex-end;
+        }
+
+
+        .assign-btn {
+
+            border: none;
+
+            padding: 11px 20px;
+
+            border-radius: 7px;
+
+            background: #1f6f5b;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+
+        .assign-btn:hover {
+
+            background: #195c4b;
+        }
+
+
+        /* =========================
+           ASSIGNED COURSES CARD
+        ========================= */
+
+        .courses-card {
+
+            background: white;
+
+            border: 1px solid #e5ece8;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.05);
+        }
+
+
+        .courses-header {
+
+            padding: 20px 22px;
+
+            border-bottom:
+                1px solid #edf1ef;
+
+            background: #fafcfb;
+        }
+
+
+        .courses-header h2 {
+
+            margin: 0;
+
+            font-size: 19px;
+        }
+
+
+        .courses-header p {
+
+            margin: 5px 0 0;
+
+            color: #718079;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+
+        .courses-table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 750px;
+        }
+
+
+        .courses-table th {
+
+            padding: 13px 15px;
+
+            background: #1f6f5b;
+
+            color: white;
+
+            text-align: left;
+
+            font-size: 13px;
+        }
+
+
+        .courses-table td {
+
+            padding: 13px 15px;
+
+            border-bottom:
+                1px solid #edf1ef;
+
+            font-size: 13px;
+
+            color: #3c4945;
+        }
+
+
+        .courses-table tbody tr:hover {
+
+            background: #f7faf8;
+        }
+
+
+        .courses-table tbody tr:last-child td {
+
+            border-bottom: none;
+        }
+
+
+        .course-code {
+
+            display: inline-block;
+
+            padding: 5px 8px;
+
+            border-radius: 5px;
+
+            background: #eef6f2;
+
+            color: #1f6f5b;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+
+        .semester-badge {
+
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 5px;
+
+            background: #eef3ff;
+
+            color: #315ea8;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        .unassign-btn {
+
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            border-radius: 6px;
+
+            background: #fff1f1;
+
+            color: #c0392b;
+
+            text-decoration: none;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        .unassign-btn:hover {
+
+            background: #ffe0e0;
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-courses {
+
+            text-align: center;
+
+            padding: 45px 20px;
+
+            color: #7a8782;
+        }
+
+
+        .empty-courses .icon {
+
+            font-size: 40px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .empty-courses h3 {
+
+            margin: 0 0 6px;
+
+            color: #34423d;
+
+            font-size: 17px;
+        }
+
+
+        .empty-courses p {
+
+            margin: 0;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .form-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .page-header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .admin-sidebar {
+
+                width: 70px;
+
+                padding: 20px 10px;
+            }
+
+
+            .sidebar-brand h2,
+            .sidebar-brand span,
+            .sidebar-menu .menu-text {
+
+                display: none;
+            }
+
+
+            .sidebar-brand {
+
+                border: none;
+            }
+
+
+            .sidebar-menu a {
+
+                justify-content: center;
+
+                padding: 13px 8px;
+            }
+
+
+            .page-content {
+
+                margin-left: 70px;
+
+                width: calc(100% - 70px);
+
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="admin-sidebar">
+
+
+    <div class="sidebar-brand">
+
+        <div class="icon">
+            🎓
+        </div>
+
+        <h2>
+            CampusCore
+        </h2>
+
+        <span>
+            Admin Panel
+        </span>
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+
+        <a href="{{ url_for('admin_dashboard') }}">
+            📊
+            <span class="menu-text">
+                Dashboard
+            </span>
+        </a>
+
+
+        <a href="{{ url_for('view_students') }}">
+            👨‍🎓
+            <span class="menu-text">
+                Students
+            </span>
+        </a>
+
+
+        <a href="{{ url_for('view_faculty') }}"
+           class="active">
+
+            👨‍🏫
+
+            <span class="menu-text">
+                Faculty
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('view_courses') }}">
+
+            📚
+
+            <span class="menu-text">
+                Courses
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('view_documents') }}">
+
+            📄
+
+            <span class="menu-text">
+                Documents
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('reports') }}">
+
+            📈
+
+            <span class="menu-text">
+                Reports
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('settings') }}">
+
+            ⚙️
+
+            <span class="menu-text">
+                Settings
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('logout') }}"
+           class="logout">
+
+            🚪
+
+            <span class="menu-text">
+                Logout
+            </span>
+
+        </a>
+
+
+    </nav>
+
+</aside>
+
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+
+<main class="page-content">
+
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+
+        <div class="page-title">
+
+            <h1>
+                Assign Course
+            </h1>
+
+            <p>
+                Manage courses assigned to this faculty member.
+            </p>
+
+        </div>
+
+
+        <a href="{{ url_for('view_faculty') }}"
+           class="back-btn">
+
+            ← Back to Faculty
+
+        </a>
+
+
+    </div>
+
+
+    <!-- =========================
+         FACULTY INFORMATION
+    ========================= -->
+
+    <div class="faculty-info">
+
+
+        <div class="faculty-info-header">
+
+
+            <div class="faculty-avatar">
+                👨‍🏫
+            </div>
+
+
+            <div>
+
+                <h2>
+                    {{ faculty["name"] }}
+                </h2>
+
+                <p>
+
+                    {{ faculty["department"] or "Department not specified" }}
+
+                    {% if faculty["designation"] %}
+                        • {{ faculty["designation"] }}
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =========================
+         ASSIGN NEW COURSE
+    ========================= -->
+
+    <div class="form-card">
+
+
+        <h2 class="section-title">
+            📚 Assign New Course
+        </h2>
+
+
+        <p class="section-subtitle">
+            Select a course, academic year and semester for this faculty member.
+        </p>
+
+
+        <form method="POST">
+
+
+            <div class="form-grid">
+
+
+                <!-- COURSE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Course
+                    </label>
+
+
+                    <select
+                        name="course_id"
+                        required>
+
+                        <option value="">
+                            Select Course
+                        </option>
+
+
+                        {% for course in courses %}
+
+                        <option value="{{ course['id'] }}">
+
+                            {{ course["course_name"] }}
+
+                            {% if course["course_code"] %}
+                                ({{ course["course_code"] }})
+                            {% endif %}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- ACADEMIC YEAR -->
+
+                <div class="form-group">
+
+                    <label>
+                        Academic Year
+                    </label>
+
+
+                    <select
+                        name="academic_year"
+                        required>
+
+                        <option value="">
+                            Select Academic Year
+                        </option>
+
+                        <option value="2026-27">
+                            2026-27
+                        </option>
+
+                        <option value="2027-28">
+                            2027-28
+                        </option>
+
+                        <option value="2028-29">
+                            2028-29
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SEMESTER -->
+
+                <div class="form-group">
+
+                    <label>
+                        Semester
+                    </label>
+
+
+                    <select
+                        name="semester"
+                        required>
+
+                        <option value="">
+                            Select Semester
+                        </option>
+
+                        <option value="I">
+                            Semester I
+                        </option>
+
+                        <option value="II">
+                            Semester II
+                        </option>
+
+                        <option value="III">
+                            Semester III
+                        </option>
+
+                        <option value="IV">
+                            Semester IV
+                        </option>
+
+                        <option value="V">
+                            Semester V
+                        </option>
+
+                        <option value="VI">
+                            Semester VI
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="form-action">
+
+                <button
+                    type="submit"
+                    class="assign-btn">
+
+                    📚 Assign Course
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+    <!-- =========================
+         ASSIGNED COURSES
+    ========================= -->
+
+    <div class="courses-card">
+
+
+        <div class="courses-header">
+
+            <h2>
+                Assigned Courses
+            </h2>
+
+            <p>
+                Courses currently assigned to this faculty member.
+            </p>
+
+        </div>
+
+
+        {% if assigned_courses %}
+
+
+        <div class="table-wrapper">
+
+
+            <table class="courses-table">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Course
+                        </th>
+
+                        <th>
+                            Course Code
+                        </th>
+
+                        <th>
+                            Department
+                        </th>
+
+                        <th>
+                            Academic Year
+                        </th>
+
+                        <th>
+                            Semester
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    {% for course in assigned_courses %}
+
+                    <tr>
+
+
+                        <td>
+                            {{ course["course_name"] }}
+                        </td>
+
+
+                        <td>
+
+                            {% if course["course_code"] %}
+
+                                <span class="course-code">
+                                    {{ course["course_code"] }}
+                                </span>
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+                            {{ course["department"] or "-" }}
+                        </td>
+
+
+                        <td>
+                            {{ course["academic_year"] or "-" }}
+                        </td>
+
+
+                        <td>
+
+                            {% if course["semester"] %}
+
+                                <span class="semester-badge">
+                                    Semester {{ course["semester"] }}
+                                </span>
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            <a
+                                href="{{ url_for('unassign_faculty_course', assignment_id=course['id']) }}"
+                                class="unassign-btn"
+                                onclick="return confirm('Are you sure you want to unassign this course?');">
+
+                                Remove
+
+                            </a>
+
+                        </td>
+
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <div class="empty-courses">
+
+            <div class="icon">
+                📚
+            </div>
+
+            <h3>
+                No Courses Assigned
+            </h3>
+
+            <p>
+                No courses have been assigned to this faculty member yet.
+            </p>
+
+        </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

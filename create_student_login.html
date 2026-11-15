@@ -1,0 +1,678 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CampusCore | Create Student Login</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+
+            background: #f5f7f6;
+
+            color: #26332f;
+        }
+
+
+        .container {
+
+            max-width: 700px;
+
+            margin: 50px auto;
+
+            padding: 0 20px;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        .page-header {
+
+            background: #1f6f5b;
+
+            color: white;
+
+            padding: 22px 25px;
+
+            border-radius: 12px 12px 0 0;
+        }
+
+
+        .page-header h1 {
+
+            font-size: 22px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .page-header p {
+
+            font-size: 13px;
+
+            opacity: 0.85;
+        }
+
+
+        /* =========================
+           CARD
+        ========================== */
+
+        .card {
+
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 0 0 12px 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.06);
+        }
+
+
+        /* =========================
+           STUDENT INFO
+        ========================== */
+
+        .student-info {
+
+            background: #f5f9f7;
+
+            border: 1px solid #e1ebe7;
+
+            border-radius: 10px;
+
+            padding: 18px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .student-info h3 {
+
+            font-size: 15px;
+
+            color: #1f6f5b;
+
+            margin-bottom: 14px;
+        }
+
+
+        .info-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 12px;
+        }
+
+
+        .info-item {
+
+            background: white;
+
+            padding: 11px;
+
+            border-radius: 7px;
+
+            border: 1px solid #edf1ef;
+        }
+
+
+        .info-item label {
+
+            display: block;
+
+            font-size: 11px;
+
+            color: #7b8883;
+
+            margin-bottom: 4px;
+        }
+
+
+        .info-item strong {
+
+            font-size: 13px;
+
+            color: #26332f;
+        }
+
+
+        /* =========================
+           FORM
+        ========================== */
+
+        .form-title {
+
+            font-size: 17px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .form-group {
+
+            margin-bottom: 18px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 7px;
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 12px 13px;
+
+            border: 1px solid #dce5e1;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            font-size: 13px;
+
+            transition: 0.2s;
+        }
+
+
+        .form-group input:focus {
+
+            border-color: #1f6f5b;
+
+            box-shadow:
+                0 0 0 3px rgba(31,111,91,0.08);
+        }
+
+
+        .hint {
+
+            display: block;
+
+            margin-top: 5px;
+
+            font-size: 11px;
+
+            color: #7b8883;
+        }
+
+
+        /* =========================
+           PASSWORD SHOW / HIDE
+        ========================== */
+
+        .password-box {
+
+            position: relative;
+
+            width: 100%;
+        }
+
+
+        .password-box input {
+
+            padding-right: 45px;
+        }
+
+
+        .toggle-password {
+
+            position: absolute;
+
+            right: 12px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            padding: 2px;
+
+            line-height: 1;
+        }
+
+
+        /* =========================
+           ERROR
+        ========================== */
+
+        .error {
+
+            background: #fff0f0;
+
+            color: #b42318;
+
+            border: 1px solid #f2caca;
+
+            padding: 11px 13px;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+
+            margin-bottom: 18px;
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================== */
+
+        .buttons {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 8px;
+        }
+
+
+        .btn {
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 12px 18px;
+
+            font-size: 13px;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            display: inline-block;
+        }
+
+
+        .btn-primary {
+
+            background: #1f6f5b;
+
+            color: white;
+        }
+
+
+        .btn-primary:hover {
+
+            background: #185846;
+        }
+
+
+        .btn-secondary {
+
+            background: #eef2f0;
+
+            color: #26332f;
+        }
+
+
+        .btn-secondary:hover {
+
+            background: #e3e9e6;
+        }
+
+
+        /* =========================
+           NOTE
+        ========================== */
+
+        .note {
+
+            margin-top: 22px;
+
+            background: #f8faf9;
+
+            border-left: 4px solid #1f6f5b;
+
+            padding: 13px;
+
+            font-size: 12px;
+
+            color: #66736e;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 600px) {
+
+            .container {
+
+                margin: 25px auto;
+            }
+
+
+            .card {
+
+                padding: 20px;
+            }
+
+
+            .info-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .buttons {
+
+                flex-direction: column;
+            }
+
+
+            .btn {
+
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <h1>
+            🔐 Create Student Login
+        </h1>
+
+        <p>
+            Create login credentials for the selected student.
+        </p>
+
+    </div>
+
+
+
+    <!-- CARD -->
+
+    <div class="card">
+
+
+        <!-- STUDENT INFORMATION -->
+
+        <div class="student-info">
+
+            <h3>
+                Student Information
+            </h3>
+
+
+            <div class="info-grid">
+
+
+                <div class="info-item">
+
+                    <label>
+                        Name
+                    </label>
+
+                    <strong>
+                        {{ student["name"] }}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <label>
+                        Roll No
+                    </label>
+
+                    <strong>
+                        {{ student["roll_no"] }}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <label>
+                        Course
+                    </label>
+
+                    <strong>
+                        {{ student["course"] }}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <label>
+                        Semester
+                    </label>
+
+                    <strong>
+                        {{ student["semester"] or "-" }}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ERROR -->
+
+        {% if error %}
+
+        <div class="error">
+
+            ⚠️ {{ error }}
+
+        </div>
+
+        {% endif %}
+
+
+
+        <!-- FORM -->
+
+        <h2 class="form-title">
+            Login Credentials
+        </h2>
+
+
+        <form
+            method="POST"
+            action="{{ url_for('create_student_login', student_id=student['id']) }}"
+        >
+
+
+            <div class="form-group">
+
+                <label>
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter username"
+                    required
+                >
+
+                <span class="hint">
+                    Example: student17 or anushka17
+                </span>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter password"
+                        required
+                        autocomplete="new-password"
+                    >
+
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        onclick="togglePassword()"
+                        title="Show / Hide Password"
+                        aria-label="Show / Hide Password"
+                    >
+                        👁️
+                    </button>
+
+                </div>
+
+
+                <span class="hint">
+                    Give the student this password for login.
+                </span>
+
+            </div>
+
+
+
+            <div class="buttons">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    🔐 Create Login
+                </button>
+
+
+                <a
+                    href="{{ url_for('view_students') }}"
+                    class="btn btn-secondary"
+                >
+                    ← Back to Students
+                </a>
+
+            </div>
+
+
+        </form>
+
+
+
+        <div class="note">
+
+            <strong>Note:</strong>
+
+            After creating the login, this student will be linked
+            with the account. The student can then use these
+            credentials to access the CampusCore Student Portal.
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- PASSWORD SHOW / HIDE SCRIPT -->
+
+<script>
+
+function togglePassword() {
+
+    const passwordInput =
+        document.getElementById("password");
+
+
+    if (passwordInput.type === "password") {
+
+        passwordInput.type = "text";
+
+    }
+
+    else {
+
+        passwordInput.type = "password";
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>
+```

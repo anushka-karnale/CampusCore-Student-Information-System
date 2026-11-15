@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusCore | Edit Course</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #26332f;
+        }
+
+
+        /* ==================================================
+           SIDEBAR
+        ================================================== */
+
+        .admin-sidebar {
+            width: 245px;
+
+            background: #1f6f5b;
+            color: white;
+
+            padding: 25px 18px;
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            overflow-y: auto;
+        }
+
+
+        .sidebar-brand {
+            text-align: center;
+
+            padding-bottom: 25px;
+
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+
+        .sidebar-brand .icon {
+            font-size: 35px;
+        }
+
+
+        .sidebar-brand h2 {
+            margin: 8px 0 3px;
+            font-size: 22px;
+        }
+
+
+        .sidebar-brand span {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+
+        /* ==================================================
+           SIDEBAR MENU
+        ================================================== */
+
+        .sidebar-menu {
+            margin-top: 28px;
+        }
+
+
+        .sidebar-menu a {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 13px 14px;
+
+            margin-bottom: 7px;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            transition: 0.2s ease;
+        }
+
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.15);
+        }
+
+
+        .sidebar-menu .logout {
+            margin-top: 25px;
+            background: rgba(0,0,0,0.12);
+        }
+
+
+        /* ==================================================
+           MAIN PAGE
+        ================================================== */
+
+        .page {
+            margin-left: 245px;
+
+            width: calc(100% - 245px);
+
+            padding: 30px 35px;
+        }
+
+
+        /* ==================================================
+           HEADER
+        ================================================== */
+
+        .header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+
+        .header p {
+            margin: 6px 0 0;
+
+            color: #718079;
+
+            font-size: 14px;
+        }
+
+
+        /* ==================================================
+           BACK BUTTON
+        ================================================== */
+
+        .back-btn {
+            padding: 11px 18px;
+
+            background: white;
+
+            color: #1f6f5b;
+
+            text-decoration: none;
+
+            border: 1px solid #dce5e1;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .back-btn:hover {
+            background: #f0f6f3;
+        }
+
+
+        /* ==================================================
+           FORM CARD
+        ================================================== */
+
+        .form-card {
+            max-width: 700px;
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 12px;
+
+            border: 1px solid #e8eeeb;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+
+        /* ==================================================
+           FORM GROUP
+        ================================================== */
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #34423d;
+        }
+
+
+        .form-group input {
+            width: 100%;
+
+            padding: 12px 13px;
+
+            border: 1px solid #dce5e1;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            outline: none;
+
+            background: white;
+        }
+
+
+        .form-group input:focus {
+            border-color: #1f6f5b;
+
+            box-shadow:
+                0 0 0 2px rgba(31,111,91,0.08);
+        }
+
+
+        /* ==================================================
+           ERROR MESSAGE
+        ================================================== */
+
+        .error {
+            background: #ffe8e8;
+
+            color: #b42318;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            font-size: 14px;
+        }
+
+
+        /* ==================================================
+           BUTTONS
+        ================================================== */
+
+        .form-buttons {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 25px;
+        }
+
+
+        .submit-btn {
+            border: none;
+
+            padding: 12px 22px;
+
+            background: #1f6f5b;
+
+            color: white;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+
+        .cancel-btn {
+            display: inline-block;
+
+            padding: 12px 22px;
+
+            background: #edf3f0;
+
+            color: #1f6f5b;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .cancel-btn:hover {
+            background: #dfece7;
+        }
+
+
+        /* ==================================================
+           DELETE BUTTON
+        ================================================== */
+
+        .delete-btn {
+            display: inline-block;
+
+            padding: 12px 22px;
+
+            background: #d9534f;
+
+            color: white;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .delete-btn:hover {
+            background: #c9302c;
+        }
+
+
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
+
+        @media (max-width: 700px) {
+
+            .admin-sidebar {
+                width: 70px;
+
+                padding: 20px 10px;
+            }
+
+
+            .sidebar-brand h2,
+            .sidebar-brand span,
+            .sidebar-menu .menu-text {
+                display: none;
+            }
+
+
+            .sidebar-brand {
+                border: none;
+            }
+
+
+            .sidebar-menu a {
+                justify-content: center;
+
+                padding: 13px 8px;
+            }
+
+
+            .page {
+                margin-left: 70px;
+
+                width: calc(100% - 70px);
+
+                padding: 20px;
+            }
+
+
+            .header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+
+            .form-card {
+                width: 100%;
+
+                padding: 22px;
+            }
+
+
+            .form-buttons {
+                flex-direction: column;
+            }
+
+
+            .submit-btn,
+            .cancel-btn,
+            .delete-btn {
+                width: 100%;
+
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     SIDEBAR
+================================================== -->
+
+<aside class="admin-sidebar">
+
+
+    <div class="sidebar-brand">
+
+        <div class="icon">
+            🎓
+        </div>
+
+        <h2>
+            CampusCore
+        </h2>
+
+        <span>
+            Admin Panel
+        </span>
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+
+        <!-- DASHBOARD -->
+
+        <a href="{{ url_for('admin_dashboard') }}">
+
+            📊
+
+            <span class="menu-text">
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <!-- STUDENTS -->
+
+        <a href="{{ url_for('view_students') }}">
+
+            👨‍🎓
+
+            <span class="menu-text">
+                Students
+            </span>
+
+        </a>
+
+
+        <!-- FACULTY -->
+
+        <a href="{{ url_for('view_faculty') }}">
+
+            👨‍🏫
+
+            <span class="menu-text">
+                Faculty
+            </span>
+
+        </a>
+
+
+        <!-- COURSES -->
+
+        <a href="{{ url_for('view_courses') }}"
+           class="active">
+
+            📚
+
+            <span class="menu-text">
+                Courses
+            </span>
+
+        </a>
+
+
+        <!-- DOCUMENTS -->
+
+        <a href="#">
+
+            📄
+
+            <span class="menu-text">
+                Documents
+            </span>
+
+        </a>
+
+
+        <!-- REPORTS -->
+
+        <a href="#">
+
+            📈
+
+            <span class="menu-text">
+                Reports
+            </span>
+
+        </a>
+
+
+        <!-- SETTINGS -->
+
+        <a href="#">
+
+            ⚙️
+
+            <span class="menu-text">
+                Settings
+            </span>
+
+        </a>
+
+
+        <!-- LOGOUT -->
+
+        <a href="{{ url_for('logout') }}"
+           class="logout">
+
+            🚪
+
+            <span class="menu-text">
+                Logout
+            </span>
+
+        </a>
+
+
+    </nav>
+
+</aside>
+
+
+
+<!-- ==================================================
+     MAIN CONTENT
+================================================== -->
+
+<main class="page">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+
+        <div>
+
+            <h1>
+                Edit Course
+            </h1>
+
+            <p>
+                Update course information.
+            </p>
+
+        </div>
+
+
+        <a href="{{ url_for('view_courses') }}"
+           class="back-btn">
+
+            ← Back to Courses
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- FORM CARD -->
+
+    <div class="form-card">
+
+
+        <!-- ERROR -->
+
+        {% if error %}
+
+            <div class="error">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+
+        <!-- EDIT FORM -->
+
+        <form method="POST">
+
+
+            <!-- COURSE NAME -->
+
+            <div class="form-group">
+
+                <label for="course_name">
+                    Course Name
+                </label>
+
+                <input
+                    type="text"
+                    id="course_name"
+                    name="course_name"
+                    value="{{ course['course_name'] }}"
+                    placeholder="Enter course name"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- COURSE CODE -->
+
+            <div class="form-group">
+
+                <label for="course_code">
+                    Course Code
+                </label>
+
+                <input
+                    type="text"
+                    id="course_code"
+                    name="course_code"
+                    value="{{ course['course_code'] or '' }}"
+                    placeholder="Enter course code"
+                >
+
+            </div>
+
+
+
+            <!-- DEPARTMENT -->
+
+            <div class="form-group">
+
+                <label for="department">
+                    Department
+                </label>
+
+                <input
+                    type="text"
+                    id="department"
+                    name="department"
+                    value="{{ course['department'] or '' }}"
+                    placeholder="Enter department"
+                >
+
+            </div>
+
+
+
+            <!-- DURATION -->
+
+            <div class="form-group">
+
+                <label for="duration">
+                    Duration
+                </label>
+
+                <input
+                    type="text"
+                    id="duration"
+                    name="duration"
+                    value="{{ course['duration'] or '' }}"
+                    placeholder="Example: 3 Years"
+                >
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="form-buttons">
+
+
+                <!-- UPDATE -->
+
+                <button
+                    type="submit"
+                    class="submit-btn">
+
+                    💾 Update Course
+
+                </button>
+
+
+                <!-- CANCEL -->
+
+                <a
+                    href="{{ url_for('view_courses') }}"
+                    class="cancel-btn">
+
+                    ← Cancel
+
+                </a>
+
+
+                <!-- DELETE -->
+
+        
+
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

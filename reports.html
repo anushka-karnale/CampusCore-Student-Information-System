@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CampusCore | Reports</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #26332f;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .admin-sidebar {
+            width: 245px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            background: #1f6f5b;
+            color: white;
+            padding: 25px 18px;
+            overflow-y: auto;
+        }
+
+
+        .sidebar-brand {
+            text-align: center;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.20);
+        }
+
+
+        .sidebar-icon {
+            font-size: 36px;
+            margin-bottom: 5px;
+        }
+
+
+        .sidebar-brand h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+
+        .sidebar-brand p {
+            margin: 4px 0 0;
+            font-size: 12px;
+            opacity: 0.80;
+        }
+
+
+        .sidebar-menu {
+            margin-top: 28px;
+        }
+
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 14px;
+            margin-bottom: 7px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+
+        .sidebar-menu a:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.18);
+        }
+
+
+        .sidebar-menu .logout {
+            margin-top: 25px;
+            background: rgba(0,0,0,0.12);
+        }
+
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .main-content {
+            margin-left: 245px;
+            width: calc(100% - 245px);
+            padding: 30px 35px;
+        }
+
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+
+        .page-title h1 {
+            margin: 0;
+            font-size: 29px;
+        }
+
+
+        .page-title p {
+            margin: 6px 0 0;
+            color: #718079;
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           SUMMARY CARDS
+        ========================= */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+
+
+        .summary-card {
+            background: white;
+            border: 1px solid #e8eeeb;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+        }
+
+
+        .summary-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+
+        .student-icon {
+            background: #e8f6ef;
+        }
+
+
+        .faculty-icon {
+            background: #eaf2ff;
+        }
+
+
+        .course-icon {
+            background: #f2ecff;
+        }
+
+
+        .document-icon {
+            background: #fff3e5;
+        }
+
+
+        .summary-info h3 {
+            margin: 0;
+            font-size: 22px;
+            color: #26332f;
+        }
+
+
+        .summary-info p {
+            margin: 4px 0 0;
+            font-size: 12px;
+            color: #718079;
+        }
+
+
+        /* =========================
+           REPORT SECTION
+        ========================= */
+
+        .report-section {
+            background: white;
+            border: 1px solid #e8eeeb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+        }
+
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+
+        .section-title h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #26332f;
+        }
+
+
+        .section-title p {
+            margin: 3px 0 0;
+            color: #718079;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           REPORT CARDS
+        ========================= */
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+
+        .report-card {
+            border: 1px solid #e8eeeb;
+            border-radius: 10px;
+            padding: 16px;
+            background: #fafcfb;
+            transition: 0.2s ease;
+        }
+
+
+        .report-card:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+
+        .report-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: #e8f6ef;
+            color: #1f6f5b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            margin-bottom: 11px;
+        }
+
+
+        .report-card h3 {
+            margin: 0 0 6px;
+            font-size: 15px;
+            color: #26332f;
+        }
+
+
+        .report-card p {
+            margin: 0 0 13px;
+            font-size: 12px;
+            color: #718079;
+            line-height: 1.5;
+        }
+
+
+        .view-report-btn {
+            display: inline-block;
+            padding: 7px 11px;
+            border-radius: 6px;
+            background: #e8f6ef;
+            color: #1f6f5b;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+
+        .view-report-btn:hover {
+            opacity: 0.82;
+        }
+
+
+        /* =========================
+           QUICK SUMMARY
+        ========================= */
+
+        .quick-summary {
+            background: white;
+            border: 1px solid #e8eeeb;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+        }
+
+
+        .quick-summary h2 {
+            margin: 0 0 15px;
+            font-size: 18px;
+        }
+
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 11px 0;
+            border-bottom: 1px solid #edf1ef;
+            font-size: 13px;
+        }
+
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .summary-row span {
+            color: #718079;
+        }
+
+
+        .summary-row strong {
+            color: #1f6f5b;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1100px) {
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+
+            .report-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 800px) {
+
+            .admin-sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+
+            .sidebar-brand h2,
+            .sidebar-brand p,
+            .sidebar-menu .menu-text {
+                display: none;
+            }
+
+
+            .sidebar-brand {
+                border: none;
+            }
+
+
+            .sidebar-menu a {
+                justify-content: center;
+                padding: 13px 8px;
+            }
+
+
+            .main-content {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+                padding: 20px;
+            }
+
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .report-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="admin-sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="sidebar-icon">
+                🎓
+            </div>
+
+            <h2>
+                CampusCore
+            </h2>
+
+            <p>
+                Admin Panel
+            </p>
+
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+
+            <!-- DASHBOARD -->
+            <a href="/admin/dashboard">
+
+                📊
+
+                <span class="menu-text">
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <!-- STUDENTS -->
+            <a href="/admin/students">
+
+                👨‍🎓
+
+                <span class="menu-text">
+                    Students
+                </span>
+
+            </a>
+
+
+            <!-- FACULTY -->
+            <a href="/admin/faculty">
+
+                👨‍🏫
+
+                <span class="menu-text">
+                    Faculty
+                </span>
+
+            </a>
+
+
+            <!-- COURSES -->
+            <a href="/admin/courses">
+
+                📚
+
+                <span class="menu-text">
+                    Courses
+                </span>
+
+            </a>
+
+
+            <!-- DOCUMENTS -->
+            <a href="/admin/documents">
+
+                📄
+
+                <span class="menu-text">
+                    Documents
+                </span>
+
+            </a>
+
+
+            <!-- REPORTS -->
+            <a href="/admin/reports" class="active">
+
+                📈
+
+                <span class="menu-text">
+                    Reports
+                </span>
+
+            </a>
+
+            <a href="{{ url_for('admin_notifications') }}">
+    🔔
+    <span class="menu-text">Notifications</span>
+</a>
+
+
+            <!-- SETTINGS -->
+            <a href="{{ url_for('settings') }}">
+    ⚙️
+    <span class="menu-text">
+        Settings
+    </span>
+</a>
+
+
+            <!-- LOGOUT -->
+            <a href="/logout" class="logout">
+
+                🚪
+
+                <span class="menu-text">
+                    Logout
+                </span>
+
+            </a>
+
+
+        </nav>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+    <main class="main-content">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div class="page-title">
+
+                <h1>
+                    📈 Reports
+                </h1>
+
+                <p>
+                    View and analyze CampusCore management information.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             SUMMARY CARDS
+        ========================= -->
+
+        <div class="summary-grid">
+
+
+            <!-- TOTAL STUDENTS -->
+
+            <div class="summary-card">
+
+                <div class="summary-icon student-icon">
+                    👨‍🎓
+                </div>
+
+                <div class="summary-info">
+
+                    <h3>
+                        {{ total_students }}
+                    </h3>
+
+                    <p>
+                        Total Students
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TOTAL FACULTY -->
+
+            <div class="summary-card">
+
+                <div class="summary-icon faculty-icon">
+                    👨‍🏫
+                </div>
+
+                <div class="summary-info">
+
+                    <h3>
+                        {{ total_faculty }}
+                    </h3>
+
+                    <p>
+                        Total Faculty
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TOTAL COURSES -->
+
+            <div class="summary-card">
+
+                <div class="summary-icon course-icon">
+                    📚
+                </div>
+
+                <div class="summary-info">
+
+                    <h3>
+                        {{ total_courses }}
+                    </h3>
+
+                    <p>
+                        Total Courses
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TOTAL DOCUMENTS -->
+
+            <div class="summary-card">
+
+                <div class="summary-icon document-icon">
+                    📄
+                </div>
+
+                <div class="summary-info">
+
+                    <h3>
+                        {{ total_documents }}
+                    </h3>
+
+                    <p>
+                        Total Documents
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             AVAILABLE REPORTS
+        ========================= -->
+
+        <div class="report-section">
+
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        📊 Available Reports
+                    </h2>
+
+                    <p>
+                        Select a report to view detailed information.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="report-grid">
+
+
+                <!-- =========================
+                     STUDENT REPORT
+                ========================= -->
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        👨‍🎓
+                    </div>
+
+                    <h3>
+                        Student Report
+                    </h3>
+
+                    <p>
+                        View student records and student-related information.
+                    </p>
+
+                    <a
+                        href="{{ url_for('student_report') }}"
+                        class="view-report-btn"
+                    >
+                        View Report
+                    </a>
+
+                </div>
+
+
+
+                <!-- =========================
+                     FACULTY REPORT
+                ========================= -->
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        👨‍🏫
+                    </div>
+
+                    <h3>
+                        Faculty Report
+                    </h3>
+
+                    <p>
+                        View faculty records and department information.
+                    </p>
+
+                    <a
+                        href="{{ url_for('faculty_report') }}"
+                        class="view-report-btn"
+                    >
+                        View Report
+                    </a>
+
+                </div>
+
+
+
+                <!-- =========================
+                     COURSE REPORT
+                ========================= -->
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        📚
+                    </div>
+
+                    <h3>
+                        Course Report
+                    </h3>
+
+                    <p>
+                        View available courses, codes and duration details.
+                    </p>
+
+                    <a
+                        href="{{ url_for('course_report') }}"
+                        class="view-report-btn"
+                    >
+                        View Report
+                    </a>
+
+                </div>
+
+
+
+                <!-- =========================
+                     DOCUMENT REPORT
+                ========================= -->
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        📄
+                    </div>
+
+                    <h3>
+                        Document Report
+                    </h3>
+
+                    <p>
+                        View uploaded student document information.
+                    </p>
+
+                    <a
+                        href="{{ url_for('document_report') }}"
+                        class="view-report-btn"
+                    >
+                        View Report
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             QUICK SUMMARY
+        ========================= -->
+
+        <div class="quick-summary">
+
+
+            <h2>
+                📋 Quick Summary
+            </h2>
+
+
+
+            <div class="summary-row">
+
+                <span>
+                    Total Students
+                </span>
+
+                <strong>
+                    {{ total_students }}
+                </strong>
+
+            </div>
+
+
+
+            <div class="summary-row">
+
+                <span>
+                    Total Faculty
+                </span>
+
+                <strong>
+                    {{ total_faculty }}
+                </strong>
+
+            </div>
+
+
+
+            <div class="summary-row">
+
+                <span>
+                    Total Courses
+                </span>
+
+                <strong>
+                    {{ total_courses }}
+                </strong>
+
+            </div>
+
+
+
+            <div class="summary-row">
+
+                <span>
+                    Total Documents
+                </span>
+
+                <strong>
+                    {{ total_documents }}
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

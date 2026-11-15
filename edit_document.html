@@ -1,0 +1,935 @@
+<!-- ============================================================
+     FILE: edit_document.html
+     CAMPUSCORE - EDIT DOCUMENT
+============================================================ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusCore | Edit Document</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #26332f;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .admin-sidebar {
+            width: 245px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            background: #1f6f5b;
+            color: white;
+            padding: 25px 18px;
+            overflow-y: auto;
+        }
+
+
+        .sidebar-brand {
+            text-align: center;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.20);
+        }
+
+
+        .sidebar-icon {
+            font-size: 36px;
+        }
+
+
+        .sidebar-brand h2 {
+            margin: 8px 0 3px;
+            font-size: 22px;
+        }
+
+
+        .sidebar-brand p {
+            margin: 0;
+            font-size: 12px;
+            opacity: 0.80;
+        }
+
+
+        .sidebar-menu {
+            margin-top: 28px;
+        }
+
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 14px;
+            margin-bottom: 7px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+
+        .sidebar-menu a:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.18);
+        }
+
+
+        .sidebar-menu .logout {
+            margin-top: 25px;
+            background: rgba(0,0,0,0.12);
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
+
+        .main-content {
+            margin-left: 245px;
+            width: calc(100% - 245px);
+            padding: 35px;
+        }
+
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+
+        .page-header p {
+            margin: 6px 0 0;
+            color: #718079;
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           FORM CARD
+        ===================================================== */
+
+        .form-card {
+            max-width: 850px;
+            background: white;
+            border: 1px solid #e8eeeb;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+
+        /* =====================================================
+           STUDENT INFORMATION
+        ===================================================== */
+
+        .student-card {
+            background: #f3f8f5;
+            border: 1px solid #dcebe4;
+            border-radius: 9px;
+            padding: 18px;
+            margin-bottom: 25px;
+        }
+
+
+        .student-card-title {
+            font-size: 12px;
+            color: #718079;
+            margin-bottom: 12px;
+        }
+
+
+        .student-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+
+        .student-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+
+        .student-label {
+            font-size: 11px;
+            color: #718079;
+        }
+
+
+        .student-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #26332f;
+        }
+
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #34423d;
+        }
+
+
+        .required {
+            color: #c0392b;
+        }
+
+
+        .form-control {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #dce5e1;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            background: white;
+        }
+
+
+        .form-control:focus {
+            border-color: #1f6f5b;
+        }
+
+
+        /* =====================================================
+           CURRENT FILE
+        ===================================================== */
+
+        .current-file {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            background: #fafcfb;
+            border: 1px solid #e5ece8;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+
+        .file-icon {
+            font-size: 25px;
+        }
+
+
+        .file-details {
+            flex: 1;
+        }
+
+
+        .file-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #26332f;
+            word-break: break-all;
+        }
+
+
+        .file-note {
+            margin-top: 3px;
+            font-size: 11px;
+            color: #718079;
+        }
+
+
+        .view-current-btn {
+            padding: 7px 11px;
+            border-radius: 6px;
+            background: #e8f6ef;
+            color: #1f6f5b;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           FILE UPLOAD
+        ===================================================== */
+
+        .upload-box {
+            border: 2px dashed #cddbd5;
+            border-radius: 9px;
+            padding: 22px;
+            text-align: center;
+            background: #fafcfb;
+        }
+
+
+        .upload-box p {
+            margin: 5px 0;
+            color: #718079;
+            font-size: 13px;
+        }
+
+
+        .file-input {
+            margin-top: 12px;
+            font-size: 13px;
+        }
+
+
+        .upload-note {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #8a9691;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid #edf1ef;
+        }
+
+
+        .save-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #1f6f5b;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+
+        .cancel-btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border: 1px solid #dce5e1;
+            border-radius: 8px;
+            background: white;
+            color: #1f6f5b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+
+        .cancel-btn:hover {
+            background: #f3f8f5;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 800px) {
+
+            .admin-sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .sidebar-brand h2,
+            .sidebar-brand p,
+            .sidebar-menu .menu-text {
+                display: none;
+            }
+
+            .sidebar-brand {
+                border: none;
+            }
+
+            .sidebar-menu a {
+                justify-content: center;
+                padding: 13px 8px;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+                padding: 20px;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+
+            .student-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ============================================================
+     SIDEBAR
+============================================================ -->
+
+<aside class="admin-sidebar">
+
+
+    <div class="sidebar-brand">
+
+        <div class="sidebar-icon">
+            🎓
+        </div>
+
+        <h2>
+            CampusCore
+        </h2>
+
+        <p>
+            Admin Panel
+        </p>
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+
+        <a href="{{ url_for('admin_dashboard') }}">
+
+            📊
+
+            <span class="menu-text">
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('view_students') }}">
+
+            👨‍🎓
+
+            <span class="menu-text">
+                Students
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('view_faculty') }}">
+
+            👨‍🏫
+
+            <span class="menu-text">
+                Faculty
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('view_courses') }}">
+
+            📚
+
+            <span class="menu-text">
+                Courses
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('view_documents') }}"
+           class="active">
+
+            📄
+
+            <span class="menu-text">
+                Documents
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('reports') }}">
+
+            📈
+
+            <span class="menu-text">
+                Reports
+            </span>
+
+        </a>
+
+
+        <a href="#">
+
+            ⚙️
+
+            <span class="menu-text">
+                Settings
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('logout') }}"
+           class="logout">
+
+            🚪
+
+            <span class="menu-text">
+                Logout
+            </span>
+
+        </a>
+
+
+    </nav>
+
+</aside>
+
+
+<!-- ============================================================
+     MAIN CONTENT
+============================================================ -->
+
+<main class="main-content">
+
+
+    <div class="page-header">
+
+        <h1>
+            ✏️ Edit Document
+        </h1>
+
+        <p>
+            Update the selected student document.
+        </p>
+
+    </div>
+
+
+    <div class="form-card">
+
+
+        <!-- =====================================================
+             STUDENT INFORMATION
+        ===================================================== -->
+
+        <div class="student-card">
+
+
+            <div class="student-card-title">
+                Student Information
+            </div>
+
+
+            <div class="student-grid">
+
+
+                <div class="student-item">
+
+                    <span class="student-label">
+                        Student ID
+                    </span>
+
+                    <span class="student-value">
+
+                        STU{{ "%03d"|format(document["student_id"]) }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="student-item">
+
+                    <span class="student-label">
+                        Roll No
+                    </span>
+
+                    <span class="student-value">
+
+                        {{ student["roll_no"] }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="student-item">
+
+                    <span class="student-label">
+                        Student Name
+                    </span>
+
+                    <span class="student-value">
+
+                        {{ student["name"] }}
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <div
+                class="student-grid"
+                style="margin-top: 15px;">
+
+
+                <div class="student-item">
+
+                    <span class="student-label">
+                        Course
+                    </span>
+
+                    <span class="student-value">
+
+                        {{ student["course"] }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="student-item">
+
+                    <span class="student-label">
+                        Document ID
+                    </span>
+
+                    <span class="student-value">
+
+                        DOC{{ "%03d"|format(document["id"]) }}
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =====================================================
+             EDIT FORM
+        ===================================================== -->
+
+        <form
+            method="POST"
+            action="{{ url_for(
+                'edit_document',
+                document_id=document['id']
+            ) }}"
+            enctype="multipart/form-data">
+
+
+            <!-- DOCUMENT TYPE -->
+
+            <div class="form-group">
+
+
+                <label for="document_type">
+
+                    Document Type
+                    <span class="required">*</span>
+
+                </label>
+
+
+                <select
+                    id="document_type"
+                    name="document_type"
+                    class="form-control"
+                    required>
+
+
+                    <option value="Aadhaar Card"
+                        {% if document["document_type"] == "Aadhaar Card" %}
+                            selected
+                        {% endif %}>
+
+                        Aadhaar Card
+
+                    </option>
+
+
+                    <option value="Marksheet"
+                        {% if document["document_type"] == "Marksheet" %}
+                            selected
+                        {% endif %}>
+
+                        Marksheet
+
+                    </option>
+
+
+                    <option value="Leaving Certificate"
+                        {% if document["document_type"] == "Leaving Certificate" %}
+                            selected
+                        {% endif %}>
+
+                        Leaving Certificate
+
+                    </option>
+
+
+                    <option value="Birth Certificate"
+                        {% if document["document_type"] == "Birth Certificate" %}
+                            selected
+                        {% endif %}>
+
+                        Birth Certificate
+
+                    </option>
+
+
+                    <option value="Fee Receipt"
+                        {% if document["document_type"] == "Fee Receipt" %}
+                            selected
+                        {% endif %}>
+
+                        Fee Receipt
+
+                    </option>
+
+
+                    <option value="Caste Certificate"
+                        {% if document["document_type"] == "Caste Certificate" %}
+                            selected
+                        {% endif %}>
+
+                        Caste Certificate
+
+                    </option>
+
+
+                    <option value="Income Certificate"
+                        {% if document["document_type"] == "Income Certificate" %}
+                            selected
+                        {% endif %}>
+
+                        Income Certificate
+
+                    </option>
+
+
+                    <option value="Other"
+                        {% if document["document_type"] == "Other" %}
+                            selected
+                        {% endif %}>
+
+                        Other
+
+                    </option>
+
+
+                </select>
+
+
+            </div>
+
+
+            <!-- CURRENT FILE -->
+
+            <div class="form-group">
+
+
+                <label>
+                    Current Document
+                </label>
+
+
+                <div class="current-file">
+
+
+                    <div class="file-icon">
+                        📄
+                    </div>
+
+
+                    <div class="file-details">
+
+
+                        <div class="file-name">
+
+                            {{ document["file_name"] }}
+
+                        </div>
+
+
+                        <div class="file-note">
+
+                            Uploaded:
+                            {{ document["upload_date"] or "-" }}
+
+                        </div>
+
+
+                    </div>
+
+
+                    <a
+                        href="{{ url_for(
+                            'view_document_file',
+                            document_id=document['id']
+                        ) }}"
+                        target="_blank"
+                        class="view-current-btn">
+
+                        👁 View
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- NEW FILE -->
+
+            <div class="form-group">
+
+
+                <label for="document_file">
+
+                    Replace Document
+                    <span style="font-weight: normal;">
+                        (Optional)
+                    </span>
+
+                </label>
+
+
+                <div class="upload-box">
+
+
+                    <div style="font-size: 32px;">
+                        📤
+                    </div>
+
+
+                    <strong>
+                        Choose a new file
+                    </strong>
+
+
+                    <p>
+                        Leave empty if you don't want to replace
+                        the current document.
+                    </p>
+
+
+                    <input
+                        type="file"
+                        id="document_file"
+                        name="document_file"
+                        class="file-input"
+                        accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+
+
+                    <div class="upload-note">
+
+                        Allowed:
+                        PDF, JPG, JPEG, PNG, DOC, DOCX
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="form-actions">
+
+
+                <button
+                    type="submit"
+                    class="save-btn">
+
+                    💾 Save Changes
+
+                </button>
+
+
+                <a
+                    href="{{ url_for('view_documents') }}"
+                    class="cancel-btn">
+
+                    Cancel
+
+                </a>
+
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

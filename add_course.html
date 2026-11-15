@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusCore | Add Course</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #26332f;
+        }
+
+        /* ================================
+           SIDEBAR
+        ================================= */
+
+        .admin-sidebar {
+            width: 245px;
+            background: #1f6f5b;
+            color: white;
+
+            padding: 25px 18px;
+
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            overflow-y: auto;
+        }
+
+        .sidebar-brand {
+            text-align: center;
+            padding-bottom: 25px;
+
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .sidebar-brand .icon {
+            font-size: 35px;
+        }
+
+        .sidebar-brand h2 {
+            margin: 8px 0 3px;
+            font-size: 22px;
+        }
+
+        .sidebar-brand span {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* ================================
+           MENU
+        ================================= */
+
+        .sidebar-menu {
+            margin-top: 28px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 13px 14px;
+            margin-bottom: 7px;
+
+            color: white;
+            text-decoration: none;
+
+            border-radius: 8px;
+            font-size: 14px;
+
+            transition: 0.2s ease;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .sidebar-menu .logout {
+            margin-top: 25px;
+            background: rgba(0,0,0,0.12);
+        }
+
+        /* ================================
+           MAIN CONTENT
+        ================================= */
+
+        .add-course-page {
+            margin-left: 245px;
+            width: calc(100% - 245px);
+
+            padding: 30px 35px;
+        }
+
+        /* ================================
+           HEADER
+        ================================= */
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .page-header p {
+            margin: 6px 0 0;
+            color: #718079;
+            font-size: 14px;
+        }
+
+        /* ================================
+           FORM CARD
+        ================================= */
+
+        .course-card {
+            max-width: 700px;
+
+            background: white;
+
+            border: 1px solid #e8eeeb;
+            border-radius: 12px;
+
+            padding: 30px;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        /* ================================
+           ERROR MESSAGE
+        ================================= */
+
+        .error-message {
+            background: #ffe8e8;
+            color: #b42318;
+
+            border: 1px solid #f5b5b5;
+
+            padding: 12px 15px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+        }
+
+        /* ================================
+           FORM GROUP
+        ================================= */
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            color: #34423d;
+        }
+
+        .form-group input {
+            width: 100%;
+
+            padding: 12px 13px;
+
+            border: 1px solid #dce5e1;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #1f6f5b;
+
+            box-shadow: 0 0 0 3px rgba(31,111,91,0.08);
+        }
+
+        /* ================================
+           BUTTONS
+        ================================= */
+
+        .form-actions {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 25px;
+        }
+
+        .save-btn,
+        .cancel-btn {
+            display: inline-block;
+
+            padding: 11px 20px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        .save-btn {
+            border: none;
+
+            background: #1f6f5b;
+
+            color: white;
+        }
+
+        .save-btn:hover {
+            opacity: 0.9;
+        }
+
+        .cancel-btn {
+            background: white;
+
+            color: #1f6f5b;
+
+            border: 1px solid #dce5e1;
+        }
+
+        .cancel-btn:hover {
+            background: #f0f6f3;
+        }
+
+        /* ================================
+           MOBILE
+        ================================= */
+
+        @media (max-width: 700px) {
+
+            .admin-sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .sidebar-brand h2,
+            .sidebar-brand span,
+            .sidebar-menu .menu-text {
+                display: none;
+            }
+
+            .sidebar-brand {
+                border: none;
+            }
+
+            .sidebar-menu a {
+                justify-content: center;
+                padding: 13px 8px;
+            }
+
+            .add-course-page {
+                margin-left: 70px;
+
+                width: calc(100% - 70px);
+
+                padding: 20px;
+            }
+
+            .course-card {
+                padding: 20px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .save-btn,
+            .cancel-btn {
+                text-align: center;
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     SIDEBAR
+========================================= -->
+
+<aside class="admin-sidebar">
+
+    <div class="sidebar-brand">
+
+        <div class="icon">
+            🎓
+        </div>
+
+        <h2>
+            CampusCore
+        </h2>
+
+        <span>
+            Admin Panel
+        </span>
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+        <a href="{{ url_for('admin_dashboard') }}">
+
+            📊
+
+            <span class="menu-text">
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('view_students') }}">
+
+            👨‍🎓
+
+            <span class="menu-text">
+                Students
+            </span>
+
+        </a>
+
+
+       <a href="{{ url_for('view_faculty') }}">
+    👨‍🏫
+    <span class="menu-text">Faculty</span>
+</a>
+
+        <a href="{{ url_for('view_courses') }}"
+           class="active">
+
+            📚
+
+            <span class="menu-text">
+                Courses
+            </span>
+
+        </a>
+
+
+        <a href="#">
+
+            📄
+
+            <span class="menu-text">
+                Documents
+            </span>
+
+        </a>
+
+
+        <a href="#">
+
+            📈
+
+            <span class="menu-text">
+                Reports
+            </span>
+
+        </a>
+
+
+        <a href="#">
+
+            ⚙️
+
+            <span class="menu-text">
+                Settings
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('logout') }}"
+           class="logout">
+
+            🚪
+
+            <span class="menu-text">
+                Logout
+            </span>
+
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<!-- =========================================
+     MAIN CONTENT
+========================================= -->
+
+<main class="add-course-page">
+
+
+    <div class="page-header">
+
+        <h1>
+            Add Course
+        </h1>
+
+        <p>
+            Add a new course to the CampusCore system.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================
+         FORM CARD
+    ====================================== -->
+
+    <div class="course-card">
+
+
+        {% if error %}
+
+        <div class="error-message">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <form method="POST"
+              action="{{ url_for('add_course') }}">
+
+
+            <!-- COURSE NAME -->
+
+            <div class="form-group">
+
+                <label for="course_name">
+                    Course Name *
+                </label>
+
+                <input
+                    type="text"
+                    id="course_name"
+                    name="course_name"
+                    placeholder="Enter course name"
+                    value="{{ course_name or '' }}"
+                    required
+                >
+
+            </div>
+
+
+            <!-- COURSE CODE -->
+
+            <div class="form-group">
+
+                <label for="course_code">
+                    Course Code
+                </label>
+
+                <input
+                    type="text"
+                    id="course_code"
+                    name="course_code"
+                    placeholder="Example: BCA101"
+                    value="{{ course_code or '' }}"
+                >
+
+            </div>
+
+
+            <!-- DEPARTMENT -->
+
+            <div class="form-group">
+
+                <label for="department">
+                    Department
+                </label>
+
+                <input
+                    type="text"
+                    id="department"
+                    name="department"
+                    placeholder="Enter department"
+                    value="{{ department or '' }}"
+                >
+
+            </div>
+
+
+            <!-- DURATION -->
+
+            <div class="form-group">
+
+                <label for="duration">
+                    Duration
+                </label>
+
+                <input
+                    type="text"
+                    id="duration"
+                    name="duration"
+                    placeholder="Example: 3 Years"
+                    value="{{ duration or '' }}"
+                >
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="save-btn">
+
+                    ➕ Add Course
+
+                </button>
+
+
+                <a
+                    href="{{ url_for('view_courses') }}"
+                    class="cancel-btn">
+
+                    ← Back to Courses
+
+                </a>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

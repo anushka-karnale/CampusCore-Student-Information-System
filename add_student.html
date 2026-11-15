@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>CampusCore | Add Student</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f7f6;
+        color: #26332f;
+    }
+
+    /* ================= SIDEBAR ================= */
+
+    .admin-sidebar {
+        width: 245px;
+        background: #1f6f5b;
+        color: white;
+        padding: 25px 18px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    .sidebar-brand {
+        text-align: center;
+        padding-bottom: 25px;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .sidebar-brand .icon {
+        font-size: 35px;
+    }
+
+    .sidebar-brand h2 {
+        margin: 8px 0 3px;
+        font-size: 22px;
+    }
+
+    .sidebar-brand span {
+        font-size: 12px;
+        opacity: 0.8;
+    }
+
+    .sidebar-menu {
+        margin-top: 28px;
+    }
+
+    .sidebar-menu a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 14px;
+        margin-bottom: 7px;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+        background: rgba(255,255,255,0.15);
+    }
+
+    .sidebar-menu .logout {
+        margin-top: 25px;
+        background: rgba(0,0,0,0.12);
+    }
+
+    /* ================= MAIN ================= */
+
+    .page {
+        margin-left: 245px;
+        width: calc(100% - 245px);
+        padding: 30px 35px;
+    }
+
+    /* ================= HEADER ================= */
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 27px;
+    }
+
+    .header p {
+        margin: 6px 0 0;
+        color: #718079;
+        font-size: 14px;
+    }
+
+    /* ================= BACK BUTTON ================= */
+
+    .back-btn {
+        padding: 10px 16px;
+        background: white;
+        color: #1f6f5b;
+        text-decoration: none;
+        border: 1px solid #dce5e1;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .back-btn:hover {
+        background: #f0f6f3;
+    }
+
+    /* ================= FORM CARD ================= */
+
+    .form-card {
+        max-width: 850px;
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        border: 1px solid #e8eeeb;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+    }
+
+    /* ================= FORM GRID ================= */
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px 18px;
+    }
+
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .form-group.full {
+        grid-column: 1 / -1;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #34423d;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #dce5e1;
+        border-radius: 7px;
+        font-size: 14px;
+        outline: none;
+        background: white;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: #1f6f5b;
+    }
+
+    /* ================= BUTTON ================= */
+
+    .form-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .submit-btn {
+        border: none;
+        padding: 10px 20px;
+        background: #1f6f5b;
+        color: white;
+        border-radius: 7px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        opacity: 0.9;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 700px) {
+
+        .admin-sidebar {
+            width: 70px;
+            padding: 20px 10px;
+        }
+
+        .sidebar-brand h2,
+        .sidebar-brand span,
+        .sidebar-menu .menu-text {
+            display: none;
+        }
+
+        .sidebar-brand {
+            border: none;
+        }
+
+        .sidebar-menu a {
+            justify-content: center;
+        }
+
+        .page {
+            margin-left: 70px;
+            width: calc(100% - 70px);
+            padding: 20px;
+        }
+
+        .header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .form-card {
+            width: 100%;
+            padding: 20px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group.full {
+            grid-column: auto;
+        }
+
+        .submit-btn {
+            width: 100%;
+        }
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="admin-sidebar">
+
+```
+<div class="sidebar-brand">
+
+    <div class="icon">
+        🎓
+    </div>
+
+    <h2>
+        CampusCore
+    </h2>
+
+    <span>
+        Admin Panel
+    </span>
+
+</div>
+
+
+<nav class="sidebar-menu">
+
+    <a href="{{ url_for('admin_dashboard') }}">
+
+        📊
+
+        <span class="menu-text">
+            Dashboard
+        </span>
+
+    </a>
+
+
+    <a href="{{ url_for('view_students') }}"
+       class="active">
+
+        👨‍🎓
+
+        <span class="menu-text">
+            Students
+        </span>
+
+    </a>
+
+
+    <a href="{{ url_for('view_faculty') }}">
+
+        👨‍🏫
+
+        <span class="menu-text">
+            Faculty
+        </span>
+
+    </a>
+
+
+    <a href="{{ url_for('view_courses') }}">
+
+        📚
+
+        <span class="menu-text">
+            Courses
+        </span>
+
+    </a>
+
+
+    <a href="#">
+
+        📄
+
+        <span class="menu-text">
+            Documents
+        </span>
+
+    </a>
+
+
+    <a href="#">
+
+        📈
+
+        <span class="menu-text">
+            Reports
+        </span>
+
+    </a>
+
+   
+
+    <a href="#">
+
+        ⚙️
+
+        <span class="menu-text">
+            Settings
+        </span>
+
+    </a>
+
+
+    <a href="{{ url_for('logout') }}"
+       class="logout">
+
+        🚪
+
+        <span class="menu-text">
+            Logout
+        </span>
+
+    </a>
+
+</nav>
+```
+
+</aside>
+
+<!-- ================= MAIN ================= -->
+
+<main class="page">
+
+```
+<!-- HEADER -->
+
+<div class="header">
+
+    <div>
+
+        <h1>
+            Add Student
+        </h1>
+
+        <p>
+            Add a new student to CampusCore.
+        </p>
+
+    </div>
+
+
+    <a href="{{ url_for('view_students') }}"
+       class="back-btn">
+
+        ← Back to Students
+
+    </a>
+
+</div>
+
+
+<!-- FORM -->
+
+<div class="form-card">
+
+    <form method="POST">
+
+        <div class="form-grid">
+
+            <!-- ROLL NUMBER -->
+
+            <div class="form-group">
+
+                <label for="roll_no">
+                    Roll Number
+                </label>
+
+                <input
+                    type="text"
+                    id="roll_no"
+                    name="roll_no"
+                    value="{{ request.form.get('roll_no', '') }}"
+                    required
+                >
+
+            </div>
+
+
+            <!-- STUDENT NAME -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ request.form.get('name', '') }}"
+                    required
+                >
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ request.form.get('email', '') }}"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="form-group">
+
+                <label for="phone">
+                    Phone
+                </label>
+
+                <input
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    value="{{ request.form.get('phone', '') }}"
+                >
+
+            </div>
+
+
+            <!-- COURSE -->
+
+            <div class="form-group">
+
+                <label for="course">
+                    Course
+                </label>
+
+                <input
+                    type="text"
+                    id="course"
+                    name="course"
+                    value="{{ request.form.get('course', '') }}"
+                    required
+                >
+
+            </div>
+
+
+            <!-- SEMESTER -->
+
+            <div class="form-group">
+
+                <label for="semester">
+                    Semester
+                </label>
+
+                <select
+                    id="semester"
+                    name="semester"
+                    required
+                >
+
+                    <option value="">
+                        Select Semester
+                    </option>
+
+                    <option value="I"
+                        {% if request.form.get('semester') == "I" %}selected{% endif %}>
+                        Semester I
+                    </option>
+
+                    <option value="II"
+                        {% if request.form.get('semester') == "II" %}selected{% endif %}>
+                        Semester II
+                    </option>
+
+                    <option value="III"
+                        {% if request.form.get('semester') == "III" %}selected{% endif %}>
+                        Semester III
+                    </option>
+
+                    <option value="IV"
+                        {% if request.form.get('semester') == "IV" %}selected{% endif %}>
+                        Semester IV
+                    </option>
+
+                    <option value="V"
+                        {% if request.form.get('semester') == "V" %}selected{% endif %}>
+                        Semester V
+                    </option>
+
+                    <option value="VI"
+                        {% if request.form.get('semester') == "VI" %}selected{% endif %}>
+                        Semester VI
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ADDRESS -->
+
+            <div class="form-group full">
+
+                <label for="address">
+                    Address
+                </label>
+
+                <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    value="{{ request.form.get('address', '') }}"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- SAVE BUTTON -->
+
+        <div class="form-buttons">
+
+            <button
+                type="submit"
+                class="submit-btn">
+
+                💾 Save Student
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+```
+
+</main>
+
+</body>
+
+</html>

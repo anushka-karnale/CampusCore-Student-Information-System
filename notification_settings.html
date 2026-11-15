@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notification Settings - CampusCore</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7f6;
+            color: #263238;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 245px;
+            height: 100vh;
+            background: #1f6f5b;
+            color: white;
+            padding-top: 25px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo h2 {
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .logo p {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: white;
+            padding: 14px 25px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .menu a:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .menu a.active {
+            background: rgba(255, 255, 255, 0.18);
+            border-left: 4px solid white;
+        }
+
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 245px;
+            min-height: 100vh;
+            padding: 30px 40px;
+        }
+
+        /* ================= HEADER ================= */
+
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header-left h1 {
+            font-size: 28px;
+            color: #1f6f5b;
+        }
+
+        .header-left p {
+            color: #777;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            color: #1f6f5b;
+            border: 1px solid #d7e4df;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #1f6f5b;
+            color: white;
+        }
+
+        /* ================= ALERT ================= */
+
+        .alert {
+            padding: 13px 18px;
+            border-radius: 8px;
+            margin-bottom: 22px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #e8f6ef;
+            color: #1f6f5b;
+            border: 1px solid #b8dfca;
+        }
+
+        .alert-error {
+            background: #fdecec;
+            color: #b42318;
+            border: 1px solid #f2b8b5;
+        }
+
+        /* ================= CARD ================= */
+
+        .settings-card {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+            max-width: 900px;
+        }
+
+        .card-header {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eeeeee;
+            padding-bottom: 18px;
+        }
+
+        .card-header h2 {
+            color: #1f6f5b;
+            font-size: 21px;
+            margin-bottom: 6px;
+        }
+
+        .card-header p {
+            color: #777;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* ================= NOTIFICATION ITEM ================= */
+
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 18px;
+            border: 1px solid #e1e8e5;
+            border-radius: 10px;
+            background: #fafcfc;
+            transition: 0.3s;
+        }
+
+        .notification-item:hover {
+            border-color: #b8d5cc;
+            background: #f7faf9;
+        }
+
+        .notification-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: #e5f2ee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .notification-text h3 {
+            font-size: 15px;
+            color: #263238;
+            margin-bottom: 5px;
+        }
+
+        .notification-text p {
+            font-size: 13px;
+            color: #777;
+            line-height: 1.4;
+        }
+
+        /* ================= TOGGLE ================= */
+
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 27px;
+            flex-shrink: 0;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #cfd8d5;
+            border-radius: 30px;
+            transition: 0.3s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 21px;
+            height: 21px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle input:checked + .slider {
+            background: #1f6f5b;
+        }
+
+        .toggle input:checked + .slider:before {
+            transform: translateX(23px);
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .form-actions {
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid #eeeeee;
+            display: flex;
+            gap: 12px;
+        }
+
+        .save-btn {
+            border: none;
+            background: #1f6f5b;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .save-btn:hover {
+            background: #185947;
+        }
+
+        .cancel-btn {
+            text-decoration: none;
+            background: #f1f4f3;
+            color: #455a64;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .cancel-btn:hover {
+            background: #e2e7e5;
+        }
+
+        /* ================= INFO BOX ================= */
+
+        .info-box {
+            margin-top: 25px;
+            padding: 17px 20px;
+            background: #f0f7f5;
+            border-left: 4px solid #1f6f5b;
+            border-radius: 7px;
+        }
+
+        .info-box h4 {
+            color: #1f6f5b;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .info-box p {
+            color: #667;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 25px;
+            }
+
+            .top-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .notification-item {
+                align-items: flex-start;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+            <h2>CampusCore</h2>
+            <p>Student Information System</p>
+        </div>
+
+        <div class="menu">
+
+            <a href="{{ url_for('admin_dashboard') }}">
+                <span class="menu-icon">🏠</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{{ url_for('view_students') }}">
+                <span class="menu-icon">🎓</span>
+                <span>Students</span>
+            </a>
+
+            <a href="{{ url_for('view_faculty') }}">
+                <span class="menu-icon">👨‍🏫</span>
+                <span>Faculty</span>
+            </a>
+
+            <a href="{{ url_for('view_courses') }}">
+                <span class="menu-icon">📚</span>
+                <span>Courses</span>
+            </a>
+
+            <a href="{{ url_for('view_documents') }}">
+                <span class="menu-icon">📄</span>
+                <span>Documents</span>
+            </a>
+
+            <a href="{{ url_for('reports') }}">
+                <span class="menu-icon">📊</span>
+                <span>Reports</span>
+            </a>
+
+            <a href="{{ url_for('settings') }}" class="active">
+                <span class="menu-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                <span class="menu-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <div class="main">
+
+        <!-- HEADER -->
+
+        <div class="top-header">
+
+            <div class="header-left">
+
+                <h1>Notification Settings</h1>
+
+                <p>
+                    Manage notifications and alerts for CampusCore.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('settings') }}"
+                class="back-btn"
+            >
+                ← Back to Settings
+            </a>
+
+        </div>
+
+
+        <!-- ================= FLASH MESSAGES ================= -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    {% if category == "success" %}
+
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+
+                    {% elif category == "error" %}
+
+                        <div class="alert alert-error">
+                            {{ message }}
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- ================= SETTINGS CARD ================= -->
+
+        <div class="settings-card">
+
+            <div class="card-header">
+
+                <h2>Notification Preferences</h2>
+
+                <p>
+                    Choose which activities and alerts you want
+                    CampusCore to notify the administrator about.
+                </p>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('notification_settings') }}"
+            >
+
+                <div class="notification-list">
+
+
+                    <!-- New Student -->
+
+                    <div class="notification-item">
+
+                        <div class="notification-info">
+
+                            <div class="notification-icon">
+                                🎓
+                            </div>
+
+                            <div class="notification-text">
+
+                                <h3>New Student Added</h3>
+
+                                <p>
+                                    Get notified when a new student
+                                    record is added to the system.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="toggle">
+
+                            <input
+                                type="checkbox"
+                                name="new_student"
+                                value="1"
+                                {% if notifications and notifications['new_student'] == 1 %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- New Faculty -->
+
+                    <div class="notification-item">
+
+                        <div class="notification-info">
+
+                            <div class="notification-icon">
+                                👨‍🏫
+                            </div>
+
+                            <div class="notification-text">
+
+                                <h3>New Faculty Added</h3>
+
+                                <p>
+                                    Get notified when a new faculty
+                                    member is added.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="toggle">
+
+                            <input
+                                type="checkbox"
+                                name="new_faculty"
+                                value="1"
+                                {% if notifications and notifications['new_faculty'] == 1 %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- New Course -->
+
+                    <div class="notification-item">
+
+                        <div class="notification-info">
+
+                            <div class="notification-icon">
+                                📚
+                            </div>
+
+                            <div class="notification-text">
+
+                                <h3>New Course Added</h3>
+
+                                <p>
+                                    Get notified when a new course
+                                    is added to the system.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="toggle">
+
+                            <input
+                                type="checkbox"
+                                name="new_course"
+                                value="1"
+                                {% if notifications and notifications['new_course'] == 1 %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- Document Upload -->
+
+                    <div class="notification-item">
+
+                        <div class="notification-info">
+
+                            <div class="notification-icon">
+                                📄
+                            </div>
+
+                            <div class="notification-text">
+
+                                <h3>Document Uploaded</h3>
+
+                                <p>
+                                    Get notified when a student document
+                                    is uploaded.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="toggle">
+
+                            <input
+                                type="checkbox"
+                                name="document_uploaded"
+                                value="1"
+                                {% if notifications and notifications['document_uploaded'] == 1 %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- Missing Document -->
+
+                    <div class="notification-item">
+
+                        <div class="notification-info">
+
+                            <div class="notification-icon">
+                                ⚠️
+                            </div>
+
+                            <div class="notification-text">
+
+                                <h3>Missing Document Reminder</h3>
+
+                                <p>
+                                    Receive alerts when required student
+                                    documents are missing.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="toggle">
+
+                            <input
+                                type="checkbox"
+                                name="missing_document"
+                                value="1"
+                                {% if notifications and notifications['missing_document'] == 1 %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- System Notification -->
+
+                    <div class="notification-item">
+
+                        <div class="notification-info">
+
+                            <div class="notification-icon">
+                                🔔
+                            </div>
+
+                            <div class="notification-text">
+
+                                <h3>System Notifications</h3>
+
+                                <p>
+                                    Receive important CampusCore system
+                                    notifications and alerts.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="toggle">
+
+                            <input
+                                type="checkbox"
+                                name="system_notification"
+                                value="1"
+                                {% if notifications and notifications['system_notification'] == 1 %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- INFO -->
+
+                <div class="info-box">
+
+                    <h4>📌 Notification Settings</h4>
+
+                    <p>
+                        You can enable or disable individual notification
+                        types according to your requirements. These
+                        preferences are saved for the administrator.
+                    </p>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                    >
+                        💾 Save Notification Settings
+                    </button>
+
+                    <a
+                        href="{{ url_for('settings') }}"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

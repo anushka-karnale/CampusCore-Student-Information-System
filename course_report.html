@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Course Report - CampusCore</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #26332f;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .admin-sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 245px;
+            height: 100vh;
+            background: #1f6f5b;
+            padding: 25px 18px;
+            color: white;
+        }
+
+        .sidebar-brand {
+            text-align: center;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .sidebar-icon {
+            font-size: 36px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-brand h2 {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-brand p {
+            font-size: 12px;
+            opacity: 0.85;
+        }
+
+        .sidebar-menu {
+            margin-top: 28px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 14px;
+            margin-bottom: 7px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .sidebar-menu a:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .sidebar-menu a.active {
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .sidebar-menu a.logout {
+            margin-top: 25px;
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+        /* ================= MAIN ================= */
+
+        .main-content {
+            margin-left: 245px;
+            width: calc(100% - 245px);
+            padding: 30px 35px;
+        }
+
+        /* ================= HEADER ================= */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            font-size: 29px;
+            margin-bottom: 6px;
+        }
+
+        .page-title p {
+            font-size: 14px;
+            color: #687771;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background: white;
+            color: #1f6f5b;
+            border: 1px solid #dce5e1;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: #eef5f2;
+        }
+
+        /* ================= SUMMARY ================= */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            border: 1px solid #dce5e1;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .summary-card h3 {
+            font-size: 13px;
+            color: #687771;
+            margin-bottom: 8px;
+        }
+
+        .summary-card .number {
+            font-size: 27px;
+            font-weight: 700;
+            color: #1f6f5b;
+        }
+
+        /* ================= FILTER ================= */
+
+        .filter-card {
+            background: white;
+            border: 1px solid #dce5e1;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+
+        .filter-form {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .filter-form input,
+        .filter-form select {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #d4dfda;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            background: white;
+        }
+
+        .filter-form input:focus,
+        .filter-form select:focus {
+            border-color: #1f6f5b;
+        }
+
+        .filter-btn {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #1f6f5b;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .filter-btn:hover {
+            opacity: 0.9;
+        }
+
+        .clear-btn {
+            padding: 11px 16px;
+            border-radius: 8px;
+            border: 1px solid #d4dfda;
+            background: white;
+            color: #52615b;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-card {
+            background: white;
+            border: 1px solid #dce5e1;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .table-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e3ebe7;
+        }
+
+        .table-header h2 {
+            font-size: 17px;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f1f6f4;
+            color: #45534e;
+            font-size: 12px;
+            text-align: left;
+            padding: 13px 15px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 13px 15px;
+            border-top: 1px solid #edf1ef;
+            font-size: 13px;
+            color: #46544f;
+        }
+
+        tr:hover td {
+            background: #fafcfb;
+        }
+
+        .course-name {
+            font-weight: 600;
+            color: #1f6f5b;
+        }
+
+        .course-code {
+            font-weight: 600;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty-state {
+            text-align: center;
+            padding: 45px 20px;
+            color: #75827d;
+        }
+
+        .empty-state .icon {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #52615b;
+        }
+
+        .empty-state p {
+            font-size: 13px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+
+            .admin-sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .sidebar-brand h2,
+            .sidebar-brand p,
+            .menu-text {
+                display: none;
+            }
+
+            .sidebar-icon {
+                font-size: 28px;
+            }
+
+            .sidebar-menu a {
+                justify-content: center;
+                padding: 13px 8px;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 800px) {
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-form input,
+            .filter-form select,
+            .filter-btn,
+            .clear-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="admin-sidebar">
+
+        <div class="sidebar-brand">
+            <div class="sidebar-icon">🎓</div>
+
+            <h2>CampusCore</h2>
+
+            <p>Admin Panel</p>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="{{ url_for('admin_dashboard') }}">
+                📊
+                <span class="menu-text">Dashboard</span>
+            </a>
+
+            <a href="{{ url_for('view_students') }}">
+                👨‍🎓
+                <span class="menu-text">Students</span>
+            </a>
+
+            <a href="{{ url_for('view_faculty') }}">
+                👨‍🏫
+                <span class="menu-text">Faculty</span>
+            </a>
+
+            <a href="{{ url_for('view_courses') }}" class="active">
+                📚
+                <span class="menu-text">Courses</span>
+            </a>
+
+            <a href="{{ url_for('view_documents') }}">
+                📄
+                <span class="menu-text">Documents</span>
+            </a>
+
+            <a href="{{ url_for('reports') }}">
+                📈
+                <span class="menu-text">Reports</span>
+            </a>
+
+            <a href="#">
+                ⚙️
+                <span class="menu-text">Settings</span>
+            </a>
+
+            <a href="{{ url_for('logout') }}" class="logout">
+                🚪
+                <span class="menu-text">Logout</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+        <!-- HEADER -->
+
+        <div class="page-header">
+
+            <div class="page-title">
+
+                <h1>Course Report</h1>
+
+                <p>
+                    View available courses, course codes,
+                    departments and duration details.
+                </p>
+
+            </div>
+
+            <a href="{{ url_for('reports') }}" class="back-btn">
+                ← Back to Reports
+            </a>
+
+        </div>
+
+
+        <!-- ================= SUMMARY ================= -->
+
+        <div class="summary-grid">
+
+            <div class="summary-card">
+
+                <h3>Total Courses</h3>
+
+                <div class="number">
+                    {{ total_courses }}
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <h3>Total Departments</h3>
+
+                <div class="number">
+                    {{ total_departments }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= FILTER ================= -->
+
+        <div class="filter-card">
+
+            <form
+                method="GET"
+                action="{{ url_for('course_report') }}"
+                class="filter-form"
+            >
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search course name or course code..."
+                    value="{{ search }}"
+                >
+
+
+                <select name="department">
+
+                    <option value="">
+                        All Departments
+                    </option>
+
+                    {% for department in departments %}
+
+                    <option
+                        value="{{ department }}"
+                        {% if selected_department == department %}
+                        selected
+                        {% endif %}
+                    >
+                        {{ department }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+
+                <button
+                    type="submit"
+                    class="filter-btn"
+                >
+                    Search
+                </button>
+
+
+                <a
+                    href="{{ url_for('course_report') }}"
+                    class="clear-btn"
+                >
+                    Clear
+                </a>
+
+            </form>
+
+        </div>
+
+
+        <!-- ================= COURSE TABLE ================= -->
+
+        <div class="table-card">
+
+            <div class="table-header">
+
+                <h2>
+                    Course Details
+                </h2>
+
+            </div>
+
+
+            {% if courses %}
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Sr. No.
+                            </th>
+
+                            <th>
+                                Course Name
+                            </th>
+
+                            <th>
+                                Course Code
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Duration
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for course in courses %}
+
+                        <tr>
+
+                            <td>
+                                {{ loop.index }}
+                            </td>
+
+                            <td class="course-name">
+                                {{ course["course_name"] }}
+                            </td>
+
+                            <td class="course-code">
+                                {{ course["course_code"] }}
+                            </td>
+
+                            <td>
+                                {{ course["department"] }}
+                            </td>
+
+                            <td>
+                                {{ course["duration"] }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+
+                <div class="icon">
+                    📚
+                </div>
+
+                <h3>
+                    No Courses Found
+                </h3>
+
+                <p>
+                    No courses match your search or department filter.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

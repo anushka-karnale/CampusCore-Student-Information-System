@@ -1,0 +1,859 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusCore | Add Documents</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #26332f;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 245px;
+            background: #1f6f5b;
+            color: white;
+            padding: 25px 18px;
+        }
+
+        .brand {
+            text-align: center;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .brand-icon {
+            font-size: 36px;
+        }
+
+        .brand h2 {
+            margin: 5px 0 0;
+            font-size: 22px;
+        }
+
+        .brand p {
+            margin: 4px 0 0;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .menu {
+            margin-top: 28px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 14px;
+            margin-bottom: 7px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: rgba(255,255,255,0.16);
+        }
+
+        .logout {
+            margin-top: 25px;
+        }
+
+        .main {
+            margin-left: 245px;
+            padding: 35px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            color: #718079;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            padding: 11px 16px;
+            border: 1px solid #dce5e1;
+            border-radius: 8px;
+            background: white;
+            color: #1f6f5b;
+            font-weight: 600;
+        }
+
+        .card {
+            max-width: 900px;
+            background: white;
+            border: 1px solid #e8eeeb;
+            border-radius: 14px;
+            padding: 28px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+
+        .error {
+            background: #fff0f0;
+            border: 1px solid #f2caca;
+            color: #c0392b;
+            padding: 13px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #eefaf3;
+            border: 1px solid #ccebd8;
+            color: #1f6f5b;
+            padding: 13px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #34423d;
+        }
+
+        .student-section {
+            margin-bottom: 28px;
+        }
+
+        .student-input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #dce5e1;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .student-input:focus {
+            border-color: #1f6f5b;
+        }
+
+        .student-info {
+            margin-top: 10px;
+            padding: 12px 14px;
+            background: #f3f8f5;
+            border-radius: 8px;
+            color: #1f6f5b;
+            font-size: 13px;
+            display: none;
+        }
+
+        .student-error {
+            margin-top: 8px;
+            color: #c0392b;
+            font-size: 13px;
+            display: none;
+        }
+
+        .documents-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .documents-title h3 {
+            margin: 0;
+            font-size: 17px;
+        }
+
+        .document-row {
+            border: 1px solid #e2eae6;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: #fafcfb;
+        }
+
+        .row-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr auto;
+            gap: 12px;
+            align-items: end;
+        }
+
+        select,
+        input[type="file"] {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #dce5e1;
+            border-radius: 8px;
+            background: white;
+            font-size: 13px;
+        }
+
+        select:focus,
+        input[type="file"]:focus {
+            outline: none;
+            border-color: #1f6f5b;
+        }
+
+        .remove-btn {
+            padding: 11px 13px;
+            border: none;
+            border-radius: 8px;
+            background: #fff0f0;
+            color: #c0392b;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .add-more-btn {
+            padding: 10px 14px;
+            border: 1px solid #1f6f5b;
+            background: white;
+            color: #1f6f5b;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .add-more-btn:hover {
+            background: #e8f6ef;
+        }
+
+        .submit-area {
+            margin-top: 25px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .cancel-btn {
+            padding: 12px 18px;
+            border: 1px solid #dce5e1;
+            border-radius: 8px;
+            background: white;
+            color: #34423d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .upload-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #1f6f5b;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .brand h2,
+            .brand p,
+            .menu-text {
+                display: none;
+            }
+
+            .main {
+                margin-left: 70px;
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .row-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .remove-btn {
+                width: 100%;
+            }
+
+            .submit-area {
+                flex-direction: column;
+            }
+
+            .cancel-btn,
+            .upload-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🎓
+        </div>
+
+        <h2>CampusCore</h2>
+
+        <p>Admin Panel</p>
+
+    </div>
+
+    <nav class="menu">
+
+        <a href="{{ url_for('admin_dashboard') }}">
+            📊
+            <span class="menu-text">Dashboard</span>
+        </a>
+
+        <a href="{{ url_for('view_students') }}">
+            👨‍🎓
+            <span class="menu-text">Students</span>
+        </a>
+
+        <a href="{{ url_for('view_faculty') }}">
+            👨‍🏫
+            <span class="menu-text">Faculty</span>
+        </a>
+
+        <a href="{{ url_for('view_courses') }}">
+            📚
+            <span class="menu-text">Courses</span>
+        </a>
+
+        <a href="{{ url_for('view_documents') }}"
+           class="active">
+            📄
+            <span class="menu-text">Documents</span>
+        </a>
+
+        <a href="{{ url_for('reports') }}">
+            📈
+            <span class="menu-text">Reports</span>
+        </a>
+
+        <a href="#">
+            ⚙️
+            <span class="menu-text">Settings</span>
+        </a>
+
+        <a href="{{ url_for('logout') }}"
+           class="logout">
+            🚪
+            <span class="menu-text">Logout</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<main class="main">
+
+    <div class="header">
+
+        <div>
+
+            <h1>📄 Add Documents</h1>
+
+            <p>
+                Upload multiple documents for one student.
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('view_documents') }}"
+           class="back-btn">
+
+            ← Back to Documents
+
+        </a>
+
+    </div>
+
+
+    <div class="card">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="{{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        {% if error %}
+
+            <div class="error">
+                ⚠️ {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST"
+              enctype="multipart/form-data"
+              id="documentForm">
+
+
+            <!-- STUDENT -->
+
+            <div class="student-section">
+
+                <label>
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    name="student_name"
+                    id="student_name"
+                    class="student-input"
+                    placeholder="Enter student name..."
+                    required
+                    autocomplete="off"
+                >
+
+                <input
+                    type="hidden"
+                    name="student_id"
+                    id="student_id"
+                >
+
+                <div
+                    class="student-info"
+                    id="student_info">
+                </div>
+
+                <div
+                    class="student-error"
+                    id="student_error">
+
+                    Student not found. Please enter a valid student name.
+
+                </div>
+
+            </div>
+
+
+            <!-- DOCUMENTS -->
+
+            <div class="documents-title">
+
+                <h3>
+                    Documents
+                </h3>
+
+                <button
+                    type="button"
+                    class="add-more-btn"
+                    onclick="addDocumentRow()">
+
+                    ➕ Add Another Document
+
+                </button>
+
+            </div>
+
+
+            <div id="documents-container">
+
+                <div class="document-row">
+
+                    <div class="row-grid">
+
+                        <div>
+
+                            <label>
+                                Document Type
+                            </label>
+
+                            <select
+                                name="document_type[]"
+                                required>
+
+                                <option value="">
+                                    Select Document
+                                </option>
+
+                                {% for type in document_types %}
+
+                                    <option value="{{ type }}">
+                                        {{ type }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Select File
+                            </label>
+
+                            <input
+                                type="file"
+                                name="document_file[]"
+                                accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                                required>
+
+                        </div>
+
+
+                        <div>
+
+                            <button
+                                type="button"
+                                class="remove-btn"
+                                onclick="removeDocumentRow(this)">
+
+                                🗑 Remove
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <div class="submit-area">
+
+                <a
+                    href="{{ url_for('view_documents') }}"
+                    class="cancel-btn">
+
+                    Cancel
+
+                </a>
+
+                <button
+                    type="submit"
+                    class="upload-btn">
+
+                    ⬆ Upload Documents
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    /*
+       Student data is used only for automatic
+       Roll No + Course display.
+
+       No dropdown / datalist is used.
+    */
+
+    const students = [
+
+        {% for student in students %}
+
+        {
+            id: {{ student['id']|tojson }},
+            name: {{ student['name']|tojson }},
+            roll: {{ student['roll_no']|tojson }},
+            course: {{ student['course']|tojson }}
+        }
+
+        {% if not loop.last %},{% endif %}
+
+        {% endfor %}
+
+    ];
+
+
+    const studentInput =
+        document.getElementById("student_name");
+
+    const studentIdInput =
+        document.getElementById("student_id");
+
+    const studentInfo =
+        document.getElementById("student_info");
+
+    const studentError =
+        document.getElementById("student_error");
+
+
+    studentInput.addEventListener(
+        "input",
+        function () {
+
+            const value =
+                this.value.trim().toLowerCase();
+
+            studentIdInput.value = "";
+
+            studentInfo.style.display = "none";
+
+            studentError.style.display = "none";
+
+            if (!value) {
+                return;
+            }
+
+
+            const student =
+                students.find(
+                    function (item) {
+
+                        return item.name
+                            .trim()
+                            .toLowerCase()
+                            === value;
+
+                    }
+                );
+
+
+            if (student) {
+
+                studentIdInput.value =
+                    student.id;
+
+                studentInfo.innerHTML =
+                    "Roll No: <strong>"
+                    + student.roll
+                    + "</strong>"
+                    + " &nbsp; | &nbsp; "
+                    + "Course: <strong>"
+                    + student.course
+                    + "</strong>";
+
+                studentInfo.style.display =
+                    "block";
+
+            }
+
+        }
+    );
+
+
+    /*
+       Before submitting, make sure that
+       the entered student actually exists.
+    */
+
+    document
+        .getElementById("documentForm")
+        .addEventListener(
+            "submit",
+            function (event) {
+
+                if (!studentIdInput.value) {
+
+                    event.preventDefault();
+
+                    studentError.style.display =
+                        "block";
+
+                    studentInput.focus();
+
+                    return;
+
+                }
+
+            }
+        );
+
+
+    /*
+       ADD ANOTHER DOCUMENT
+    */
+
+    function addDocumentRow() {
+
+        const container =
+            document.getElementById(
+                "documents-container"
+            );
+
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "document-row";
+
+
+        row.innerHTML = `
+
+            <div class="row-grid">
+
+                <div>
+
+                    <label>
+                        Document Type
+                    </label>
+
+                    <select
+                        name="document_type[]"
+                        required>
+
+                        <option value="">
+                            Select Document
+                        </option>
+
+                        {% for type in document_types %}
+
+                            <option value="{{ type }}">
+                                {{ type }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Select File
+                    </label>
+
+                    <input
+                        type="file"
+                        name="document_file[]"
+                        accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                        required>
+
+                </div>
+
+
+                <div>
+
+                    <button
+                        type="button"
+                        class="remove-btn"
+                        onclick="removeDocumentRow(this)">
+
+                        🗑 Remove
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(row);
+
+    }
+
+
+    /*
+       REMOVE DOCUMENT
+    */
+
+    function removeDocumentRow(button) {
+
+        const container =
+            document.getElementById(
+                "documents-container"
+            );
+
+
+        const rows =
+            container.querySelectorAll(
+                ".document-row"
+            );
+
+
+        if (rows.length <= 1) {
+
+            alert(
+                "At least one document is required."
+            );
+
+            return;
+
+        }
+
+
+        button
+            .closest(".document-row")
+            .remove();
+
+    }
+
+</script>
+
+</body>
+
+</html>
+```

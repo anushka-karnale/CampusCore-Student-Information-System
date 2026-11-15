@@ -1,0 +1,814 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Courses - CampusCore</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7f6;
+            color: #263238;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 245px;
+            height: 100vh;
+            background: #1f6f5b;
+            color: white;
+            padding: 25px 18px;
+            overflow-y: auto;
+        }
+
+        .logo {
+            text-align: center;
+            padding-bottom: 22px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.25);
+        }
+
+        .logo-icon {
+            font-size: 30px;
+            margin-bottom: 6px;
+        }
+
+        .logo h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            font-size: 12px;
+            color: #d8f3dc;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: white;
+            padding: 13px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s ease;
+        }
+
+        .menu a:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+        .menu a.active {
+            background: rgba(255,255,255,0.20);
+            font-weight: 600;
+        }
+
+        /* ================= DASHBOARD STYLE LOGOUT ================= */
+
+        .menu .logout {
+            margin-top: 25px !important;
+            background: rgba(0,0,0,0.12);
+        }
+
+        .menu .logout:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 245px;
+            padding: 30px 40px;
+            min-height: 100vh;
+        }
+
+        /* ================= TOPBAR ================= */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            color: #1f6f5b;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .topbar p {
+            color: #607d8b;
+            font-size: 14px;
+        }
+
+        .profile-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 9px 14px;
+            border-radius: 10px;
+            border: 1px solid #e1e8e5;
+        }
+
+        .profile-user-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #e8f5e9;
+            color: #1f6f5b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-user strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .profile-user span {
+            display: block;
+            font-size: 11px;
+            color: #78909c;
+            margin-top: 2px;
+        }
+
+        /* ================= SUMMARY ================= */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .summary-card {
+            background: white;
+            border: 1px solid #e3ebe7;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+        }
+
+        .summary-card .icon {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .summary-card h2 {
+            color: #1f6f5b;
+            font-size: 25px;
+            margin-bottom: 4px;
+        }
+
+        .summary-card p {
+            color: #607d8b;
+            font-size: 13px;
+        }
+
+        /* ================= TABLE CARD ================= */
+
+        .table-card {
+            background: white;
+            border: 1px solid #e3ebe7;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .table-header h3 {
+            color: #1f6f5b;
+            font-size: 19px;
+        }
+
+        .search-box {
+            width: 260px;
+            padding: 10px 13px;
+            border: 1px solid #d8e2de;
+            border-radius: 8px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .search-box:focus {
+            border-color: #1f6f5b;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        thead {
+            background: #1f6f5b;
+            color: white;
+        }
+
+        th {
+            padding: 13px 12px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 13px 12px;
+            border-bottom: 1px solid #edf1ef;
+            font-size: 13px;
+            color: #455a64;
+        }
+
+        tbody tr:hover {
+            background: #f5faf8;
+        }
+
+        .course-name {
+            color: #1f6f5b;
+            font-weight: 600;
+        }
+
+        .semester {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #1f6f5b;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .course-code {
+            color: #455a64;
+            font-weight: 600;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty-state {
+            text-align: center;
+            padding: 45px 20px;
+            color: #78909c;
+        }
+
+        .empty-state .empty-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state h3 {
+            color: #455a64;
+            margin-bottom: 6px;
+        }
+
+        .empty-state p {
+            font-size: 13px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+            text-align: center;
+            color: #90a4ae;
+            font-size: 12px;
+            margin-top: 30px;
+            padding-bottom: 20px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1000px) {
+
+            .sidebar {
+                width: 220px;
+            }
+
+            .main {
+                margin-left: 220px;
+                padding: 25px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .profile-user {
+                width: 100%;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🎓
+            </div>
+
+            <h2>
+                CampusCore
+            </h2>
+
+            <p>
+                Faculty Panel
+            </p>
+
+        </div>
+
+
+        <nav class="menu">
+
+
+            <!-- Dashboard -->
+
+            <a href="{{ url_for('faculty_dashboard') }}">
+
+                📊
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <!-- My Profile -->
+
+            <a href="{{ url_for('faculty_profile') }}">
+
+                👤
+                <span>My Profile</span>
+
+            </a>
+
+
+            <!-- My Students -->
+
+            <a href="{{ url_for('faculty_students') }}">
+
+                👨‍🎓
+                <span>My Students</span>
+
+            </a>
+
+
+            <!-- My Courses -->
+
+            <a
+                href="{{ url_for('faculty_courses') }}"
+                class="active"
+            >
+
+                📚
+                <span>My Courses</span>
+
+            </a>
+
+
+            <!-- Student Documents -->
+
+            <a href="{{ url_for('faculty_documents') }}">
+
+                📄
+                <span>Student Documents</span>
+
+            </a>
+
+
+            <!-- Academic Reports -->
+
+            <a href="{{ url_for('faculty_academic_reports') }}">
+
+                📈
+                <span>Academic Reports</span>
+
+            </a>
+
+
+            <!-- Notifications -->
+
+            <a href="{{ url_for('faculty_notifications') }}">
+
+                🔔
+                <span>Notifications</span>
+
+            </a>
+
+
+            <!-- Logout -->
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout"
+            >
+
+                🚪
+                <span>Logout</span>
+
+            </a>
+
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <!-- ================= TOPBAR ================= -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>
+                    My Courses
+                </h1>
+
+                <p>
+                    View courses assigned to you for the current academic session.
+                </p>
+
+            </div>
+
+
+            <div class="profile-user">
+
+                <div class="profile-user-icon">
+                    👤
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ faculty["name"] }}
+                    </strong>
+
+                    <span>
+                        Faculty
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= SUMMARY ================= -->
+
+        <div class="summary-grid">
+
+
+            <!-- Total Courses -->
+
+            <div class="summary-card">
+
+                <div class="icon">
+                    📚
+                </div>
+
+                <h2>
+                    {{ courses|length }}
+                </h2>
+
+                <p>
+                    Total Assigned Courses
+                </p>
+
+            </div>
+
+
+            <!-- Faculty -->
+
+            <div class="summary-card">
+
+                <div class="icon">
+                    🎓
+                </div>
+
+                <h2 style="font-size:20px;">
+                    {{ faculty["name"] }}
+                </h2>
+
+                <p>
+                    Faculty
+                </p>
+
+            </div>
+
+
+            <!-- Department -->
+
+            <div class="summary-card">
+
+                <div class="icon">
+                    🏫
+                </div>
+
+                <h2 style="font-size:20px;">
+                    {{ faculty["department"] or "N/A" }}
+                </h2>
+
+                <p>
+                    Department
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ================= COURSE TABLE ================= -->
+
+        <div class="table-card">
+
+
+            <div class="table-header">
+
+                <h3>
+                    📚 Assigned Course List
+                </h3>
+
+                <input
+                    type="text"
+                    id="courseSearch"
+                    class="search-box"
+                    placeholder="Search course..."
+                >
+
+            </div>
+
+
+            {% if courses %}
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Course ID
+                                </th>
+
+                                <th>
+                                    Course Name
+                                </th>
+
+                                <th>
+                                    Course Code
+                                </th>
+
+                                <th>
+                                    Department
+                                </th>
+
+                                <th>
+                                    Duration
+                                </th>
+
+                                <th>
+                                    Academic Year
+                                </th>
+
+                                <th>
+                                    Semester
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="courseTable">
+
+                            {% for course in courses %}
+
+                            <tr>
+
+                                <td>
+                                    {{ course["id"] }}
+                                </td>
+
+                                <td class="course-name">
+                                    {{ course["course_name"] }}
+                                </td>
+
+                                <td class="course-code">
+                                    {{ course["course_code"] or "-" }}
+                                </td>
+
+                                <td>
+                                    {{ course["department"] or "-" }}
+                                </td>
+
+                                <td>
+                                    {{ course["duration"] or "-" }}
+                                </td>
+
+                                <td>
+                                    {{ course["academic_year"] or "-" }}
+                                </td>
+
+                                <td>
+
+                                    <span class="semester">
+                                        {{ course["semester"] or "-" }}
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        📚
+                    </div>
+
+                    <h3>
+                        No Courses Found
+                    </h3>
+
+                    <p>
+                        No courses are currently assigned to you.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+
+
+        <!-- ================= FOOTER ================= -->
+
+        <div class="footer">
+
+            CampusCore • Faculty Portal
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ================= COURSE SEARCH ================= -->
+
+    <script>
+
+        const searchInput =
+            document.getElementById("courseSearch");
+
+        const table =
+            document.getElementById("courseTable");
+
+
+        if (searchInput && table) {
+
+            searchInput.addEventListener(
+                "keyup",
+                function () {
+
+                    const searchValue =
+                        this.value.toLowerCase().trim();
+
+                    const rows =
+                        table.getElementsByTagName("tr");
+
+
+                    for (let i = 0; i < rows.length; i++) {
+
+                        const rowText =
+                            rows[i].innerText.toLowerCase();
+
+                        if (rowText.includes(searchValue)) {
+
+                            rows[i].style.display = "";
+
+                        } else {
+
+                            rows[i].style.display = "none";
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
+```

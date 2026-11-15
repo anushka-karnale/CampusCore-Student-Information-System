@@ -1,0 +1,578 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CampusCore | Faculty Notifications</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7f6;
+            color: #333;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 245px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: #1f6f5b;
+            color: white;
+            padding: 25px 15px;
+            overflow-y: auto;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand-icon {
+            font-size: 35px;
+            margin-bottom: 8px;
+        }
+
+        .brand h2 {
+            font-size: 23px;
+            margin-bottom: 4px;
+        }
+
+        .brand span {
+            font-size: 13px;
+            opacity: 0.85;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            text-decoration: none;
+            padding: 13px 15px;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .menu .logout {
+            margin-top: 25px !important;
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+        .menu .logout:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .main-content {
+            margin-left: 245px;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .top-header h1 {
+            color: #1f6f5b;
+            font-size: 28px;
+        }
+
+        .top-header p {
+            margin-top: 5px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .faculty-info {
+            background: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            font-size: 14px;
+        }
+
+        .faculty-info strong {
+            color: #1f6f5b;
+        }
+
+        /* =========================
+           SUMMARY CARD
+        ========================= */
+
+        .summary-card {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .summary-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            background: #e8f3ef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+        }
+
+        .summary-text h3 {
+            color: #1f6f5b;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+
+        .summary-text p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-box {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-box input:focus {
+            border-color: #1f6f5b;
+        }
+
+        /* =========================
+           NOTIFICATIONS
+        ========================= */
+
+        .notifications-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .notification-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        .notification-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .notification-icon {
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            border-radius: 10px;
+            background: #e8f3ef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-content h3 {
+            color: #1f6f5b;
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .notification-content p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .notification-date {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .notification-badge {
+            background: #e8f3ef;
+            color: #1f6f5b;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-state {
+            background: white;
+            border-radius: 12px;
+            padding: 50px 20px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .empty-state .empty-icon {
+            font-size: 45px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state h3 {
+            color: #1f6f5b;
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 210px;
+            }
+
+            .main-content {
+                margin-left: 210px;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .top-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .faculty-info {
+                width: 100%;
+            }
+
+            .notification-item {
+                flex-direction: column;
+            }
+
+            .notification-badge {
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">🎓</div>
+            <h2>CampusCore</h2>
+            <span>Faculty Panel</span>
+        </div>
+
+        <nav class="menu">
+
+            <a href="{{ url_for('faculty_dashboard') }}">
+                📊
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{{ url_for('faculty_profile') }}">
+                👤
+                <span>My Profile</span>
+            </a>
+
+            <a href="{{ url_for('faculty_students') }}">
+                👨‍🎓
+                <span>My Students</span>
+            </a>
+
+            <a href="{{ url_for('faculty_courses') }}">
+                📚
+                <span>My Courses</span>
+            </a>
+
+            <a href="{{ url_for('faculty_documents') }}">
+                📄
+                <span>Student Documents</span>
+            </a>
+
+            <a href="{{ url_for('faculty_academic_reports') }}">
+                📈
+                <span>Academic Reports</span>
+            </a>
+
+            <a href="{{ url_for('faculty_notifications') }}" class="active">
+                🔔
+                <span>Notifications</span>
+            </a>
+
+            <a href="{{ url_for('logout') }}" class="logout">
+                🚪
+                <span>Logout</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+    <main class="main-content">
+
+        <!-- HEADER -->
+
+        <div class="top-header">
+
+            <div>
+                <h1>Notifications 🔔</h1>
+                <p>View important updates and announcements from the administration.</p>
+            </div>
+
+            <div class="faculty-info">
+                Welcome,
+                <strong>{{ faculty["name"] }}</strong>
+            </div>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                🔔
+            </div>
+
+            <div class="summary-text">
+                <h3>Available Notifications</h3>
+                <p>
+                    You have
+                    <strong>{{ notifications|length }}</strong>
+                    notification{% if notifications|length != 1 %}s{% endif %}.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="notificationSearch"
+                placeholder="🔍 Search notifications..."
+                onkeyup="searchNotifications()"
+            >
+
+        </div>
+
+
+        <!-- NOTIFICATIONS -->
+
+        <div class="notifications-container" id="notificationsContainer">
+
+            {% if notifications %}
+
+                {% for notification in notifications %}
+
+                    <div
+                        class="notification-item"
+                        data-search="
+                            {{ notification['title'] }}
+                            {{ notification['message'] }}
+                            {{ notification['notification_type'] }}
+                            {{ notification['created_at'] }}
+                        "
+                    >
+
+                        <div class="notification-icon">
+
+                            {% if notification['notification_type'] == 'Academic' %}
+                                📚
+                            {% elif notification['notification_type'] == 'Important' %}
+                                ⚠️
+                            {% elif notification['notification_type'] == 'Event' %}
+                                📅
+                            {% elif notification['notification_type'] == 'Announcement' %}
+                                📢
+                            {% else %}
+                                🔔
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="notification-content">
+
+                            <h3>
+                                {{ notification['title'] }}
+                            </h3>
+
+                            <p>
+                                {{ notification['message'] }}
+                            </p>
+
+                            <span class="notification-date">
+                                {{ notification['created_at'] }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="notification-badge">
+
+                            {{ notification['notification_type'] }}
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        🔕
+                    </div>
+
+                    <h3>No Notifications</h3>
+
+                    <p>
+                        There are currently no notifications available.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         SEARCH SCRIPT
+    ========================= -->
+
+    <script>
+
+        function searchNotifications() {
+
+            const input =
+                document.getElementById("notificationSearch")
+                .value
+                .toLowerCase()
+                .trim();
+
+            const notifications =
+                document.querySelectorAll(".notification-item");
+
+            notifications.forEach(function(notification) {
+
+                const text =
+                    notification
+                    .getAttribute("data-search")
+                    .toLowerCase();
+
+                if (text.includes(input)) {
+                    notification.style.display = "flex";
+                } else {
+                    notification.style.display = "none";
+                }
+
+            });
+
+        }
+
+    </script>
+
+</body>
+</html>
+```

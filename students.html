@@ -1,0 +1,816 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CampusCore | Students</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #26332f;
+        }
+
+        /* ================================
+           SIDEBAR
+        ================================= */
+
+        .admin-sidebar {
+            width: 245px;
+            background: #1f6f5b;
+            color: white;
+            padding: 25px 18px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-brand {
+            text-align: center;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .sidebar-brand .icon {
+            font-size: 35px;
+        }
+
+        .sidebar-brand h2 {
+            margin: 8px 0 3px;
+            font-size: 22px;
+        }
+
+        .sidebar-brand span {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .sidebar-menu {
+            margin-top: 28px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 14px;
+            margin-bottom: 7px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .sidebar-menu .logout {
+            margin-top: 25px;
+            background: rgba(0,0,0,0.12);
+        }
+
+        /* ================================
+           MAIN CONTENT
+        ================================= */
+
+        .students-page {
+            margin-left: 245px;
+            width: calc(100% - 245px);
+            padding: 30px 35px;
+        }
+
+        /* ================================
+           HEADER
+        ================================= */
+
+        .students-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .students-title h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .students-title p {
+            margin: 6px 0 0;
+            color: #718079;
+            font-size: 14px;
+        }
+
+        /* ================================
+           BUTTONS
+        ================================= */
+
+        .add-student-btn {
+            display: inline-block;
+            padding: 11px 18px;
+            background: #1f6f5b;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .add-student-btn:hover {
+            opacity: 0.9;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 11px 18px;
+            background: white;
+            color: #1f6f5b;
+            text-decoration: none;
+            border: 1px solid #dce5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: #f0f6f3;
+        }
+
+        /* ================================
+           STUDENT CARD
+        ================================= */
+
+        .students-card {
+            background: white;
+            border: 1px solid #e8eeeb;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        /* ================================
+           SEARCH AREA
+        ================================= */
+
+        .search-area {
+            padding: 18px;
+            border-bottom: 1px solid #edf1ef;
+            background: #fafcfb;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 11px 13px;
+            border: 1px solid #dce5e1;
+            border-radius: 7px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-input:focus {
+            border-color: #1f6f5b;
+        }
+
+        .course-select {
+            min-width: 190px;
+            padding: 11px 13px;
+            border: 1px solid #dce5e1;
+            border-radius: 7px;
+            background: white;
+            outline: none;
+            font-size: 14px;
+            color: #34423d;
+        }
+
+        .course-select:focus {
+            border-color: #1f6f5b;
+        }
+
+        .search-btn {
+            padding: 11px 18px;
+            border: none;
+            border-radius: 7px;
+            background: #1f6f5b;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .search-btn:hover {
+            opacity: 0.9;
+        }
+
+        .clear-btn {
+            padding: 11px 18px;
+            border: 1px solid #dce5e1;
+            border-radius: 7px;
+            background: white;
+            color: #1f6f5b;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .clear-btn:hover {
+            background: #f0f6f3;
+        }
+
+        /* ================================
+           TABLE
+        ================================= */
+
+        .students-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .students-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        .students-table th {
+            background: #1f6f5b;
+            color: white;
+            padding: 14px 12px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .students-table td {
+            padding: 13px 12px;
+            border-bottom: 1px solid #edf1ef;
+            font-size: 13px;
+            color: #3c4945;
+        }
+
+        .students-table tbody tr:hover {
+            background: #f7faf8;
+        }
+
+        .students-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ================================
+           ACTION BUTTONS
+        ================================= */
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .action-btn {
+            display: inline-block;
+            padding: 7px 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .edit-btn {
+            background: #eef6f2;
+            color: #1f6f5b;
+        }
+
+        .delete-btn {
+            background: #fff1f1;
+            color: #c0392b;
+        }
+
+        .students-table th:last-child,
+        .students-table td:last-child {
+            min-width: 155px;
+            white-space: nowrap;
+        }
+
+        /* ================================
+           EMPTY MESSAGE
+        ================================= */
+
+        .no-students {
+            padding: 55px 20px;
+            text-align: center;
+            color: #7a8782;
+        }
+
+        .empty-icon {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .no-students h3 {
+            margin: 0 0 6px;
+            color: #34423d;
+        }
+
+        .no-students p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* ================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 900px) {
+
+            .search-form {
+                flex-wrap: wrap;
+            }
+
+            .search-input {
+                min-width: 200px;
+            }
+
+            .course-select {
+                flex: 1;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .admin-sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .sidebar-brand h2,
+            .sidebar-brand span,
+            .sidebar-menu .menu-text {
+                display: none;
+            }
+
+            .sidebar-brand {
+                border: none;
+            }
+
+            .sidebar-menu a {
+                justify-content: center;
+                padding: 13px 8px;
+            }
+
+            .students-page {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+                padding: 20px;
+            }
+
+            .students-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .search-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-input,
+            .course-select,
+            .search-btn,
+            .clear-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ============================================
+     SIDEBAR
+============================================= -->
+
+<aside class="admin-sidebar">
+
+    <div class="sidebar-brand">
+
+        <div class="icon">
+            🎓
+        </div>
+
+        <h2>
+            CampusCore
+        </h2>
+
+        <span>
+            Admin Panel
+        </span>
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+        <a href="{{ url_for('admin_dashboard') }}">
+
+            📊
+
+            <span class="menu-text">
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('view_students') }}"
+           class="active">
+
+            👨‍🎓
+
+            <span class="menu-text">
+                Students
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('view_faculty') }}">
+
+            👨‍🏫
+
+            <span class="menu-text">
+                Faculty
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('view_courses') }}">
+
+            📚
+
+            <span class="menu-text">
+                Courses
+            </span>
+
+        </a>
+
+
+        <a href="{{ url_for('view_documents') }}">
+
+            📄
+
+            <span class="menu-text">
+                Documents
+            </span>
+
+        </a>
+
+<!-- REPORTS -->
+<a href="{{ url_for('reports') }}">
+    📈
+    <span class="menu-text">
+        Reports
+    </span>
+</a>
+
+<a href="{{ url_for('admin_notifications') }}">
+    🔔
+    <span class="menu-text">Notifications</span>
+</a>
+
+        <a href="{{ url_for('settings') }}">
+    ⚙️
+    <span class="menu-text">
+        Settings
+    </span>
+</a>
+
+
+        <a href="{{ url_for('logout') }}"
+           class="logout">
+
+            🚪
+
+            <span class="menu-text">
+                Logout
+            </span>
+
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<!-- ============================================
+     MAIN CONTENT
+============================================= -->
+
+<main class="students-page">
+
+
+    <!-- HEADER -->
+
+    <div class="students-header">
+
+        <div class="students-title">
+
+            <h1>
+                Students
+            </h1>
+
+            <p>
+                Manage student records and information.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <a href="{{ url_for('add_student') }}"
+               class="add-student-btn">
+
+                ➕ Add Student
+
+            </a>
+
+
+            <a href="{{ url_for('admin_dashboard') }}"
+               class="back-btn">
+
+                ← Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- STUDENT CARD -->
+
+    <div class="students-card">
+
+
+        <!-- SEARCH AREA -->
+
+        <div class="search-area">
+
+            <form method="GET"
+                  action="{{ url_for('view_students') }}"
+                  class="search-form">
+
+
+                <!-- NAME / ROLL NO / COURSE SEARCH -->
+
+                <input
+                    type="text"
+                    name="search"
+                    class="search-input"
+                    placeholder="Search by name, roll no or course..."
+                    value="{{ search or '' }}"
+                >
+
+
+                <!-- COURSE FILTER -->
+
+                <select
+                    name="course"
+                    class="course-select">
+
+                    <option value="">
+                        All Courses
+                    </option>
+
+
+                    {% for c in courses %}
+
+                        <option
+                            value="{{ c['course'] }}"
+                            {% if course == c['course'] %}
+                                selected
+                            {% endif %}>
+
+                            {{ c['course'] }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+
+                <!-- SEARCH BUTTON -->
+
+                <button
+                    type="submit"
+                    class="search-btn">
+
+                    🔎 Search
+
+                </button>
+
+
+                <!-- CLEAR BUTTON -->
+
+                <a
+                    href="{{ url_for('view_students') }}"
+                    class="clear-btn">
+
+                    Clear
+
+                </a>
+
+
+            </form>
+
+        </div>
+
+
+        <!-- STUDENT DATA -->
+
+       {% if students %}
+
+    <div class="students-table-wrapper">
+
+        <table class="students-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Student ID
+                    </th>
+
+                    <th>
+                        Roll No
+                    </th>
+
+                    <th>
+                        Name
+                    </th>
+
+                    <th>
+                        Email
+                    </th>
+
+                    <th>
+                        Phone
+                    </th>
+
+                    <th>
+                        Semester
+                    </th>
+
+                    <th>
+                        Address
+                    </th>
+
+                    <th>
+                        Course
+                    </th>
+
+                    <th>
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for student in students %}
+
+                    <tr>
+
+                        <td>
+                            {{ student["id"] }}
+                        </td>
+
+                        <td>
+                            {{ student["roll_no"] }}
+                        </td>
+
+                        <td>
+                            {{ student["name"] }}
+                        </td>
+
+                        <td>
+                            {{ student["email"] or "-" }}
+                        </td>
+
+                        <td>
+                            {{ student["phone"] or "-" }}
+                        </td>
+
+                        <td>
+                            {{ student["semester"] or "N/A" }}
+                        </td>
+
+                        <td>
+                            {{ student["address"] or "-" }}
+                        </td>
+
+                        <td>
+                            {{ student["course"] or "-" }}
+                        </td>
+
+                        <td>
+
+                                    <div class="action-buttons">
+
+                                        <a
+                                            href="{{ url_for('edit_student', student_id=student['id']) }}"
+                                            class="action-btn edit-btn">
+
+                                            ✏️ Edit
+
+                                        </a>
+
+
+                                        <a
+                                            href="{{ url_for('delete_student', student_id=student['id']) }}"
+                                            class="action-btn delete-btn"
+                                            onclick="return confirm('Are you sure you want to delete this student?');">
+
+                                            🗑️ Delete
+
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="no-students">
+
+                <div class="empty-icon">
+                    👨‍🎓
+                </div>
+
+                <h3>
+                    No Students Found
+                </h3>
+
+                <p>
+                    No student records match your search or filter.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</main>
+
+
+</body>
+
+</html>
+```

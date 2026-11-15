@@ -1,0 +1,1099 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Profile - CampusCore</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            background: #f4f7f6;
+            color: #263238;
+        }
+
+
+        /* ==================================================
+           SIDEBAR
+        ================================================== */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 245px;
+            height: 100vh;
+
+            background: #1f6f5b;
+            color: white;
+
+            padding: 25px 18px;
+
+            overflow-y: auto;
+        }
+
+
+        .logo {
+            text-align: center;
+
+            padding-bottom: 22px;
+            margin-bottom: 25px;
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.25);
+        }
+
+
+        .logo .logo-icon {
+            font-size: 30px;
+            margin-bottom: 6px;
+        }
+
+
+        .logo h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+
+        .logo p {
+            font-size: 12px;
+            color: #d8f3dc;
+        }
+
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+
+        .menu a {
+            text-decoration: none;
+            color: #ffffff;
+
+            padding: 13px 15px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            transition: 0.2s ease;
+        }
+
+
+        .menu a:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+
+        .menu a.active {
+            background: rgba(255,255,255,0.20);
+            font-weight: 600;
+        }
+
+
+        /* LOGOUT - SAME AS FACULTY DASHBOARD */
+
+        .menu .logout {
+            margin-top: 25px !important;
+            background: rgba(0,0,0,0.12);
+        }
+
+
+        .menu .logout:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+
+        /* ==================================================
+           MAIN
+        ================================================== */
+
+        .main {
+            margin-left: 245px;
+
+            padding: 30px 40px;
+
+            min-height: 100vh;
+        }
+
+
+        /* ==================================================
+           TOP HEADER
+        ================================================== */
+
+        .topbar {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 28px;
+        }
+
+
+        .topbar h1 {
+            color: #1f6f5b;
+
+            font-size: 28px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .topbar p {
+            color: #607d8b;
+
+            font-size: 14px;
+        }
+
+
+        .profile-user {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            background: white;
+
+            padding: 9px 14px;
+
+            border-radius: 10px;
+
+            border: 1px solid #e1e8e5;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.04);
+        }
+
+
+        .profile-user-icon {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+
+            background: #e8f5e9;
+
+            color: #1f6f5b;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 19px;
+        }
+
+
+        .profile-user strong {
+            display: block;
+
+            font-size: 13px;
+
+            color: #263238;
+        }
+
+
+        .profile-user span {
+            display: block;
+
+            font-size: 11px;
+
+            color: #78909c;
+
+            margin-top: 2px;
+        }
+
+
+        /* ==================================================
+           PROFILE HEADER
+        ================================================== */
+
+        .profile-header {
+            background:
+                linear-gradient(
+                    135deg,
+                    #1f6f5b,
+                    #2d8a70
+                );
+
+            color: white;
+
+            border-radius: 14px;
+
+            padding: 28px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 22px;
+
+            margin-bottom: 24px;
+
+            box-shadow:
+                0 6px 18px rgba(0,0,0,0.08);
+        }
+
+
+        .profile-icon {
+            width: 78px;
+            height: 78px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            color: #1f6f5b;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 35px;
+
+            font-weight: bold;
+
+            flex-shrink: 0;
+        }
+
+
+        .profile-header h2 {
+            font-size: 24px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .profile-header p {
+            color: #d8f3dc;
+
+            font-size: 14px;
+        }
+
+
+        /* ==================================================
+           CONTENT GRID
+        ================================================== */
+
+        .content-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 22px;
+        }
+
+
+        .card {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 23px;
+
+            border: 1px solid #e3ebe7;
+
+            box-shadow:
+                0 4px 14px rgba(0,0,0,0.05);
+        }
+
+
+        .card h3 {
+            color: #1f6f5b;
+
+            margin-bottom: 18px;
+
+            font-size: 18px;
+
+            border-bottom:
+                2px solid #e8f5e9;
+
+            padding-bottom: 11px;
+        }
+
+
+        /* ==================================================
+           INFO ROW
+        ================================================== */
+
+        .info-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 12px 0;
+
+            border-bottom:
+                1px solid #edf1ef;
+
+            gap: 20px;
+        }
+
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .info-label {
+            color: #607d8b;
+
+            font-size: 13px;
+        }
+
+
+        .info-value {
+            color: #263238;
+
+            font-weight: 600;
+
+            text-align: right;
+
+            font-size: 13px;
+
+            word-break: break-word;
+        }
+
+
+        /* ==================================================
+           COURSES
+        ================================================== */
+
+        .course-card {
+            border: 1px solid #e1e8e5;
+
+            border-radius: 9px;
+
+            padding: 15px;
+
+            margin-bottom: 12px;
+
+            background: #fbfdfc;
+        }
+
+
+        .course-card:last-child {
+            margin-bottom: 0;
+        }
+
+
+        .course-card h4 {
+            color: #1f6f5b;
+
+            margin-bottom: 9px;
+
+            font-size: 16px;
+        }
+
+
+        .course-card p {
+            color: #607d8b;
+
+            font-size: 13px;
+
+            margin: 5px 0;
+        }
+
+
+        .course-card strong {
+            color: #455a64;
+        }
+
+
+        .no-course {
+            color: #78909c;
+
+            font-size: 14px;
+
+            padding: 10px 0;
+        }
+
+
+        /* ==================================================
+           STATUS
+        ================================================== */
+
+        .status {
+            display: inline-block;
+
+            background: #e8f5e9;
+
+            color: #1f6f5b;
+
+            padding: 5px 12px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
+
+        @media (max-width: 1000px) {
+
+            .sidebar {
+                width: 220px;
+            }
+
+
+            .main {
+                margin-left: 220px;
+
+                padding: 25px;
+            }
+
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+            }
+
+
+            .main {
+                margin-left: 0;
+
+                padding: 20px;
+            }
+
+
+            .topbar {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+
+            .profile-user {
+                width: 100%;
+            }
+
+
+            .profile-header {
+                flex-direction: column;
+
+                text-align: center;
+            }
+
+
+            .info-row {
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 5px;
+            }
+
+
+            .info-value {
+                text-align: left;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="sidebar">
+
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🎓
+            </div>
+
+            <h2>
+                CampusCore
+            </h2>
+
+            <p>
+                Faculty Panel
+            </p>
+
+        </div>
+
+
+        <!-- MENU -->
+
+        <nav class="menu">
+
+
+            <!-- DASHBOARD -->
+
+            <a
+                href="{{ url_for('faculty_dashboard') }}"
+            >
+                📊
+                <span>Dashboard</span>
+            </a>
+
+
+            <!-- MY PROFILE -->
+
+            <a
+                href="{{ url_for('faculty_profile') }}"
+                class="active"
+            >
+                👤
+                <span>My Profile</span>
+            </a>
+
+
+            <!-- MY STUDENTS -->
+
+            <a
+                href="{{ url_for('faculty_students') }}"
+            >
+                👨‍🎓
+                <span>My Students</span>
+            </a>
+
+
+            <!-- MY COURSES -->
+
+            <a
+                href="{{ url_for('faculty_courses') }}"
+            >
+                📚
+                <span>My Courses</span>
+            </a>
+
+
+            <!-- STUDENT DOCUMENTS -->
+
+            <a
+                href="{{ url_for('faculty_documents') }}"
+            >
+                📄
+                <span>Student Documents</span>
+            </a>
+
+
+            <!-- ACADEMIC REPORTS -->
+
+            <a
+                href="{{ url_for('faculty_academic_reports') }}"
+            >
+                📈
+                <span>Academic Reports</span>
+            </a>
+
+
+            <!-- NOTIFICATIONS -->
+
+            <a
+                href="{{ url_for('faculty_notifications') }}"
+            >
+                🔔
+                <span>Notifications</span>
+            </a>
+
+
+            <!-- LOGOUT -->
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout"
+            >
+                🚪
+                <span>Logout</span>
+            </a>
+
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- ==================================================
+         MAIN
+    ================================================== -->
+
+    <main class="main">
+
+
+        <!-- ==================================================
+             TOP HEADER
+        ================================================== -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>
+                    My Profile
+                </h1>
+
+                <p>
+                    View your faculty information and assigned courses.
+                </p>
+
+            </div>
+
+
+            <div class="profile-user">
+
+                <div class="profile-user-icon">
+                    👤
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ faculty["name"] }}
+                    </strong>
+
+                    <span>
+                        Faculty
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             PROFILE HEADER
+        ================================================== -->
+
+        <section class="profile-header">
+
+            <div class="profile-icon">
+                👤
+            </div>
+
+
+            <div>
+
+                <h2>
+                    {{ faculty["name"] }}
+                </h2>
+
+                <p>
+
+                    {{ faculty["designation"] or "Faculty Member" }}
+
+                    •
+
+                    {{ faculty["department"] or "Department not specified" }}
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             CONTENT GRID
+        ================================================== -->
+
+        <div class="content-grid">
+
+
+            <!-- ==================================================
+                 PERSONAL INFORMATION
+            ================================================== -->
+
+            <div class="card">
+
+                <h3>
+                    👤 Personal Information
+                </h3>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Faculty ID
+                    </span>
+
+                    <span class="info-value">
+                        {{ faculty["id"] }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Full Name
+                    </span>
+
+                    <span class="info-value">
+                        {{ faculty["name"] }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Email
+                    </span>
+
+                    <span class="info-value">
+                        {{ faculty["email"] or "-" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Phone
+                    </span>
+
+                    <span class="info-value">
+                        {{ faculty["phone"] or "-" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Department
+                    </span>
+
+                    <span class="info-value">
+                        {{ faculty["department"] or "-" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Designation
+                    </span>
+
+                    <span class="info-value">
+                        {{ faculty["designation"] or "-" }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 LOGIN INFORMATION
+            ================================================== -->
+
+            <div class="card">
+
+                <h3>
+                    🔐 Login Information
+                </h3>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Username
+                    </span>
+
+                    <span class="info-value">
+                        {{ faculty["username"] or "-" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Role
+                    </span>
+
+                    <span class="info-value">
+                        {{ faculty["role"] or "faculty" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Account Status
+                    </span>
+
+                    <span class="info-value">
+
+                        <span class="status">
+                            Active
+                        </span>
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Profile Status
+                    </span>
+
+                    <span class="info-value">
+
+                        <span class="status">
+                            Linked
+                        </span>
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 ASSIGNED COURSES
+            ================================================== -->
+
+            <div class="card">
+
+                <h3>
+                    📚 My Assigned Courses
+                </h3>
+
+
+                {% if courses %}
+
+                    {% for course in courses %}
+
+                        <div class="course-card">
+
+                            <h4>
+                                {{ course["course_name"] }}
+                            </h4>
+
+
+                            <p>
+                                <strong>Code:</strong>
+                                {{ course["course_code"] or "-" }}
+                            </p>
+
+
+                            <p>
+                                <strong>Department:</strong>
+                                {{ course["department"] or "-" }}
+                            </p>
+
+
+                            <p>
+                                <strong>Duration:</strong>
+                                {{ course["duration"] or "-" }}
+                            </p>
+
+
+                            <p>
+                                <strong>Academic Year:</strong>
+                                {{ course["academic_year"] or "-" }}
+                            </p>
+
+
+                            <p>
+                                <strong>Semester:</strong>
+                                {{ course["semester"] or "-" }}
+                            </p>
+
+                        </div>
+
+                    {% endfor %}
+
+
+                {% else %}
+
+                    <p class="no-course">
+                        No course has been assigned to you yet.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 FACULTY SUMMARY
+            ================================================== -->
+
+            <div class="card">
+
+                <h3>
+                    📋 Faculty Summary
+                </h3>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Faculty ID
+                    </span>
+
+                    <span class="info-value">
+                        FC-{{ "%03d"|format(faculty["id"]) }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Faculty Name
+                    </span>
+
+                    <span class="info-value">
+                        {{ faculty["name"] }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Department
+                    </span>
+
+                    <span class="info-value">
+                        {{ faculty["department"] or "-" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Designation
+                    </span>
+
+                    <span class="info-value">
+                        {{ faculty["designation"] or "-" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Assigned Courses
+                    </span>
+
+                    <span class="info-value">
+                        {{ courses|length }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Status
+                    </span>
+
+                    <span class="info-value">
+
+                        <span class="status">
+                            Active
+                        </span>
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>
+```

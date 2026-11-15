@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>About CampusCore</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7f6;
+            color: #263238;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 245px;
+            height: 100vh;
+            background: #1f6f5b;
+            color: white;
+            padding-top: 25px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo h2 {
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .logo p {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: white;
+            padding: 14px 25px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .menu a:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .menu a.active {
+            background: rgba(255, 255, 255, 0.18);
+            border-left: 4px solid white;
+        }
+
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 245px;
+            min-height: 100vh;
+            padding: 30px 40px;
+        }
+
+        /* ================= HEADER ================= */
+
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header-left h1 {
+            font-size: 28px;
+            color: #1f6f5b;
+        }
+
+        .header-left p {
+            color: #777;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            color: #1f6f5b;
+            border: 1px solid #d7e4df;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #1f6f5b;
+            color: white;
+        }
+
+        /* ================= HERO CARD ================= */
+
+        .about-card {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+            margin-bottom: 25px;
+        }
+
+        .about-header {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .app-icon {
+            width: 75px;
+            height: 75px;
+            border-radius: 18px;
+            background: #1f6f5b;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            box-shadow: 0 5px 15px rgba(31, 111, 91, 0.2);
+        }
+
+        .about-header h2 {
+            color: #1f6f5b;
+            font-size: 25px;
+            margin-bottom: 6px;
+        }
+
+        .about-header p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* ================= DESCRIPTION ================= */
+
+        .description {
+            margin-top: 25px;
+        }
+
+        .description h3 {
+            color: #1f6f5b;
+            font-size: 19px;
+            margin-bottom: 10px;
+        }
+
+        .description p {
+            color: #626d70;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* ================= INFO GRID ================= */
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-top: 25px;
+        }
+
+        .info-box {
+            background: #f7faf9;
+            border: 1px solid #e0e9e5;
+            border-radius: 10px;
+            padding: 18px;
+        }
+
+        .info-box span {
+            display: block;
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 6px;
+        }
+
+        .info-box strong {
+            color: #37474f;
+            font-size: 14px;
+        }
+
+        /* ================= MODULES ================= */
+
+        .modules-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+            margin-bottom: 25px;
+        }
+
+        .modules-card h2 {
+            color: #1f6f5b;
+            font-size: 21px;
+            margin-bottom: 20px;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .module {
+            padding: 18px;
+            background: #f7faf9;
+            border: 1px solid #e0e9e5;
+            border-radius: 10px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .module:hover {
+            transform: translateY(-3px);
+            border-color: #b8d5cc;
+        }
+
+        .module-icon {
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        .module h4 {
+            color: #37474f;
+            font-size: 14px;
+        }
+
+        .module p {
+            color: #888;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* ================= TECHNOLOGY ================= */
+
+        .technology-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        .technology-card h2 {
+            color: #1f6f5b;
+            font-size: 21px;
+            margin-bottom: 20px;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tech {
+            padding: 10px 17px;
+            background: #eaf4f1;
+            color: #1f6f5b;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 30px;
+            padding-bottom: 10px;
+            color: #888;
+            font-size: 12px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            .modules-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 25px;
+            }
+
+            .top-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .about-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+
+            <h2>CampusCore</h2>
+
+            <p>
+                Student Information System
+            </p>
+
+        </div>
+
+
+        <div class="menu">
+
+            <a href="{{ url_for('admin_dashboard') }}">
+                <span class="menu-icon">🏠</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{{ url_for('view_students') }}">
+                <span class="menu-icon">🎓</span>
+                <span>Students</span>
+            </a>
+
+            <a href="{{ url_for('view_faculty') }}">
+                <span class="menu-icon">👨‍🏫</span>
+                <span>Faculty</span>
+            </a>
+
+            <a href="{{ url_for('view_courses') }}">
+                <span class="menu-icon">📚</span>
+                <span>Courses</span>
+            </a>
+
+            <a href="{{ url_for('view_documents') }}">
+                <span class="menu-icon">📄</span>
+                <span>Documents</span>
+            </a>
+
+            <a href="{{ url_for('reports') }}">
+                <span class="menu-icon">📊</span>
+                <span>Reports</span>
+            </a>
+
+            <a href="{{ url_for('settings') }}" class="active">
+                <span class="menu-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                <span class="menu-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <div class="main">
+
+
+        <!-- HEADER -->
+
+        <div class="top-header">
+
+            <div class="header-left">
+
+                <h1>About CampusCore</h1>
+
+                <p>
+                    Information about the CampusCore system.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('settings') }}"
+                class="back-btn"
+            >
+                ← Back to Settings
+            </a>
+
+        </div>
+
+
+        <!-- ================= ABOUT CARD ================= -->
+
+        <div class="about-card">
+
+            <div class="about-header">
+
+                <div class="app-icon">
+                    🎓
+                </div>
+
+                <div>
+
+                    <h2>
+                        CampusCore
+                    </h2>
+
+                    <p>
+                        Student Information Management System
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="description">
+
+                <h3>
+                    About the System
+                </h3>
+
+                <p>
+                    CampusCore is a web-based Student Information
+                    Management System designed to manage important
+                    college information in a centralized and organized
+                    manner. The system provides an administrator with
+                    tools to manage students, faculty, courses,
+                    documents and reports through a single platform.
+                </p>
+
+            </div>
+
+
+            <!-- SYSTEM INFORMATION -->
+
+            <div class="info-grid">
+
+                <div class="info-box">
+
+                    <span>
+                        Application Name
+                    </span>
+
+                    <strong>
+                        CampusCore
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span>
+                        Application Type
+                    </span>
+
+                    <strong>
+                        Student Information Management System
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span>
+                        Version
+                    </span>
+
+                    <strong>
+                        1.0.0
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span>
+                        Academic Year
+                    </span>
+
+                    <strong>
+                        2026-27
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span>
+                        User Role
+                    </span>
+
+                    <strong>
+                        Administrator
+                    </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <span>
+                        Database
+                    </span>
+
+                    <strong>
+                        SQLite
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= MODULES ================= -->
+
+        <div class="modules-card">
+
+            <h2>
+                System Modules
+            </h2>
+
+
+            <div class="modules-grid">
+
+
+                <div class="module">
+
+                    <div class="module-icon">
+                        🎓
+                    </div>
+
+                    <h4>
+                        Student Management
+                    </h4>
+
+                    <p>
+                        Manage student records
+                    </p>
+
+                </div>
+
+
+                <div class="module">
+
+                    <div class="module-icon">
+                        👨‍🏫
+                    </div>
+
+                    <h4>
+                        Faculty Management
+                    </h4>
+
+                    <p>
+                        Manage faculty information
+                    </p>
+
+                </div>
+
+
+                <div class="module">
+
+                    <div class="module-icon">
+                        📚
+                    </div>
+
+                    <h4>
+                        Course Management
+                    </h4>
+
+                    <p>
+                        Manage courses and details
+                    </p>
+
+                </div>
+
+
+                <div class="module">
+
+                    <div class="module-icon">
+                        📄
+                    </div>
+
+                    <h4>
+                        Document Management
+                    </h4>
+
+                    <p>
+                        Manage student documents
+                    </p>
+
+                </div>
+
+
+                <div class="module">
+
+                    <div class="module-icon">
+                        📊
+                    </div>
+
+                    <h4>
+                        Reports
+                    </h4>
+
+                    <p>
+                        Generate system reports
+                    </p>
+
+                </div>
+
+
+                <div class="module">
+
+                    <div class="module-icon">
+                        ⚙️
+                    </div>
+
+                    <h4>
+                        System Settings
+                    </h4>
+
+                    <p>
+                        Manage system preferences
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= TECHNOLOGY ================= -->
+
+        <div class="technology-card">
+
+            <h2>
+                Technologies Used
+            </h2>
+
+            <div class="tech-list">
+
+                <span class="tech">
+                    Python
+                </span>
+
+                <span class="tech">
+                    Flask
+                </span>
+
+                <span class="tech">
+                    SQLite
+                </span>
+
+                <span class="tech">
+                    HTML5
+                </span>
+
+                <span class="tech">
+                    CSS3
+                </span>
+
+                <span class="tech">
+                    JavaScript
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-note">
+
+            CampusCore v1.0.0
+            <br>
+            Student Information Management System
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

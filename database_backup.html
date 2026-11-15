@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Database Backup - CampusCore</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7f6;
+            color: #263238;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 245px;
+            height: 100vh;
+            background: #1f6f5b;
+            color: white;
+            padding-top: 25px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo h2 {
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .logo p {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: white;
+            padding: 14px 25px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .menu a:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+        .menu a.active {
+            background: rgba(255,255,255,0.18);
+            border-left: 4px solid white;
+        }
+
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 245px;
+            min-height: 100vh;
+            padding: 30px 40px;
+        }
+
+        /* HEADER */
+
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header-left h1 {
+            font-size: 28px;
+            color: #1f6f5b;
+        }
+
+        .header-left p {
+            color: #777;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            color: #1f6f5b;
+            border: 1px solid #d7e4df;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background: #1f6f5b;
+            color: white;
+        }
+
+        /* ALERT */
+
+        .alert {
+            padding: 13px 18px;
+            border-radius: 8px;
+            margin-bottom: 22px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #e8f6ef;
+            color: #1f6f5b;
+            border: 1px solid #b8dfca;
+        }
+
+        .alert-error {
+            background: #fdecec;
+            color: #b42318;
+            border: 1px solid #f2b8b5;
+        }
+
+        /* CARD */
+
+        .backup-card {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+        }
+
+        .card-header {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eeeeee;
+            padding-bottom: 18px;
+        }
+
+        .card-header h2 {
+            color: #1f6f5b;
+            font-size: 21px;
+            margin-bottom: 6px;
+        }
+
+        .card-header p {
+            color: #777;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* CREATE BACKUP */
+
+        .backup-action {
+            background: #f0f7f5;
+            border: 1px solid #d4e8e1;
+            padding: 22px;
+            border-radius: 10px;
+            margin-bottom: 28px;
+        }
+
+        .backup-action h3 {
+            color: #1f6f5b;
+            font-size: 17px;
+            margin-bottom: 7px;
+        }
+
+        .backup-action p {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 17px;
+        }
+
+        .create-btn {
+            border: none;
+            background: #1f6f5b;
+            color: white;
+            padding: 12px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .create-btn:hover {
+            background: #185947;
+        }
+
+        /* TABLE */
+
+        .backup-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .backup-table th {
+            background: #f5f8f7;
+            color: #455a64;
+            text-align: left;
+            padding: 14px;
+            font-size: 13px;
+        }
+
+        .backup-table td {
+            padding: 15px 14px;
+            border-bottom: 1px solid #eeeeee;
+            font-size: 13px;
+        }
+
+        .backup-table tr:hover {
+            background: #fafcfc;
+        }
+
+        .download-btn {
+            text-decoration: none;
+            background: #e7f3ef;
+            color: #1f6f5b;
+            padding: 8px 13px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .download-btn:hover {
+            background: #1f6f5b;
+            color: white;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px;
+            color: #888;
+        }
+
+        /* INFO */
+
+        .info-box {
+            margin-top: 25px;
+            padding: 17px 20px;
+            background: #f0f7f5;
+            border-left: 4px solid #1f6f5b;
+            border-radius: 7px;
+        }
+
+        .info-box h4 {
+            color: #1f6f5b;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .info-box p {
+            color: #667;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+
+            <h2>CampusCore</h2>
+
+            <p>
+                Student Information System
+            </p>
+
+        </div>
+
+        <div class="menu">
+
+            <a href="{{ url_for('admin_dashboard') }}">
+                <span class="menu-icon">🏠</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{{ url_for('view_students') }}">
+                <span class="menu-icon">🎓</span>
+                <span>Students</span>
+            </a>
+
+            <a href="{{ url_for('view_faculty') }}">
+                <span class="menu-icon">👨‍🏫</span>
+                <span>Faculty</span>
+            </a>
+
+            <a href="{{ url_for('view_courses') }}">
+                <span class="menu-icon">📚</span>
+                <span>Courses</span>
+            </a>
+
+            <a href="{{ url_for('view_documents') }}">
+                <span class="menu-icon">📄</span>
+                <span>Documents</span>
+            </a>
+
+            <a href="{{ url_for('reports') }}">
+                <span class="menu-icon">📊</span>
+                <span>Reports</span>
+            </a>
+
+            <a href="{{ url_for('settings') }}" class="active">
+                <span class="menu-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                <span class="menu-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <div class="top-header">
+
+            <div class="header-left">
+
+                <h1>Database Backup</h1>
+
+                <p>
+                    Create and download a backup of the CampusCore database.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('settings') }}"
+                class="back-btn"
+            >
+                ← Back to Settings
+            </a>
+
+        </div>
+
+
+        <!-- FLASH -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    {% if category == "success" %}
+
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+
+                    {% elif category == "error" %}
+
+                        <div class="alert alert-error">
+                            {{ message }}
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <div class="backup-card">
+
+            <div class="card-header">
+
+                <h2>Database Backup</h2>
+
+                <p>
+                    Protect your student, faculty, course and document
+                    information by creating a database backup.
+                </p>
+
+            </div>
+
+
+            <!-- CREATE BACKUP -->
+
+            <div class="backup-action">
+
+                <h3>
+                    💾 Create New Backup
+                </h3>
+
+                <p>
+                    A copy of the current CampusCore database will be
+                    created and stored securely in the backups folder.
+                </p>
+
+                <form
+                    method="POST"
+                    action="{{ url_for('create_database_backup') }}"
+                >
+
+                    <button
+                        type="submit"
+                        class="create-btn"
+                    >
+                        💾 Create Database Backup
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- BACKUP HISTORY -->
+
+            <h3
+                style="
+                    color:#1f6f5b;
+                    margin-bottom:15px;
+                    font-size:17px;
+                "
+            >
+                Backup History
+            </h3>
+
+
+            {% if backup_files %}
+
+                <table class="backup-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Backup File
+                            </th>
+
+                            <th>
+                                Size
+                            </th>
+
+                            <th>
+                                Created On
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for backup in backup_files %}
+
+                            <tr>
+
+                                <td>
+                                    {{ backup["name"] }}
+                                </td>
+
+                                <td>
+                                    {{ backup["size"] }} KB
+                                </td>
+
+                                <td>
+                                    {{ backup["date"] }}
+                                </td>
+
+                                <td>
+
+                                    <a
+                                        href="{{ url_for(
+                                            'download_database_backup',
+                                            filename=backup['name']
+                                        ) }}"
+                                        class="download-btn"
+                                    >
+                                        ⬇ Download
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            {% else %}
+
+                <div class="empty">
+
+                    📂 No database backups available yet.
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- INFO -->
+
+            <div class="info-box">
+
+                <h4>
+                    📌 About Database Backup
+                </h4>
+
+                <p>
+                    Database backups help protect CampusCore data from
+                    accidental deletion or system problems. Each backup
+                    is saved with a unique date and time so previous
+                    backups are not overwritten.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

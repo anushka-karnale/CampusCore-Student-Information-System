@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Academic Settings - CampusCore</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7f6;
+            color: #263238;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 245px;
+            height: 100vh;
+            background: #1f6f5b;
+            color: white;
+            padding-top: 25px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo h2 {
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .logo p {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: white;
+            padding: 14px 25px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .menu a:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .menu a.active {
+            background: rgba(255, 255, 255, 0.18);
+            border-left: 4px solid white;
+        }
+
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 245px;
+            min-height: 100vh;
+            padding: 30px 40px;
+        }
+
+        /* ================= HEADER ================= */
+
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header-left h1 {
+            font-size: 28px;
+            color: #1f6f5b;
+        }
+
+        .header-left p {
+            color: #777;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            color: #1f6f5b;
+            border: 1px solid #d7e4df;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #1f6f5b;
+            color: white;
+        }
+
+        /* ================= ALERT ================= */
+
+        .alert {
+            padding: 13px 18px;
+            border-radius: 8px;
+            margin-bottom: 22px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #e8f6ef;
+            color: #1f6f5b;
+            border: 1px solid #b8dfca;
+        }
+
+        .alert-error {
+            background: #fdecec;
+            color: #b42318;
+            border: 1px solid #f2b8b5;
+        }
+
+        /* ================= CARD ================= */
+
+        .settings-card {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+            max-width: 850px;
+        }
+
+        .card-header {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eeeeee;
+            padding-bottom: 18px;
+        }
+
+        .card-header h2 {
+            color: #1f6f5b;
+            font-size: 21px;
+            margin-bottom: 6px;
+        }
+
+        .card-header p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #37474f;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d6dede;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            background: #fff;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #1f6f5b;
+            box-shadow: 0 0 0 3px rgba(31, 111, 91, 0.08);
+        }
+
+        .form-help {
+            margin-top: 6px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .form-actions {
+            margin-top: 30px;
+            padding-top: 22px;
+            border-top: 1px solid #eeeeee;
+            display: flex;
+            gap: 12px;
+        }
+
+        .save-btn {
+            border: none;
+            background: #1f6f5b;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .save-btn:hover {
+            background: #185947;
+        }
+
+        .cancel-btn {
+            text-decoration: none;
+            background: #f1f4f3;
+            color: #455a64;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .cancel-btn:hover {
+            background: #e2e7e5;
+        }
+
+        /* ================= INFO BOX ================= */
+
+        .info-box {
+            margin-top: 25px;
+            padding: 17px 20px;
+            background: #f0f7f5;
+            border-left: 4px solid #1f6f5b;
+            border-radius: 7px;
+        }
+
+        .info-box h4 {
+            color: #1f6f5b;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .info-box p {
+            color: #667;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .main {
+                margin-left: 210px;
+                padding: 25px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .top-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .settings-card {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+            <h2>CampusCore</h2>
+            <p>Student Information System</p>
+        </div>
+
+        <div class="menu">
+
+            <a href="{{ url_for('admin_dashboard') }}">
+                <span class="menu-icon">🏠</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{{ url_for('view_students') }}">
+                <span class="menu-icon">🎓</span>
+                <span>Students</span>
+            </a>
+
+            <a href="{{ url_for('view_faculty') }}">
+                <span class="menu-icon">👨‍🏫</span>
+                <span>Faculty</span>
+            </a>
+
+            <a href="{{ url_for('view_courses') }}">
+                <span class="menu-icon">📚</span>
+                <span>Courses</span>
+            </a>
+
+            <a href="{{ url_for('view_documents') }}">
+                <span class="menu-icon">📄</span>
+                <span>Documents</span>
+            </a>
+
+            <a href="{{ url_for('reports') }}">
+                <span class="menu-icon">📊</span>
+                <span>Reports</span>
+            </a>
+
+            <a href="{{ url_for('settings') }}" class="active">
+                <span class="menu-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                <span class="menu-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <div class="main">
+
+        <!-- HEADER -->
+
+        <div class="top-header">
+
+            <div class="header-left">
+
+                <h1>Academic Settings</h1>
+
+                <p>
+                    Manage the current academic year and semester information.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('settings') }}"
+                class="back-btn"
+            >
+                ← Back to Settings
+            </a>
+
+        </div>
+
+
+        <!-- ================= FLASH MESSAGES ================= -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    {% if category == "success" %}
+
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+
+                    {% elif category == "error" %}
+
+                        <div class="alert alert-error">
+                            {{ message }}
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- ================= SETTINGS CARD ================= -->
+
+        <div class="settings-card">
+
+            <div class="card-header">
+
+                <h2>Academic Information</h2>
+
+                <p>
+                    Update the academic session and semester currently
+                    followed by the college.
+                </p>
+
+            </div>
+
+
+            <!-- ================= FORM ================= -->
+
+            <form
+                method="POST"
+                action="{{ url_for('academic_settings') }}"
+            >
+
+                <div class="form-grid">
+
+
+                    <!-- Academic Year -->
+
+                    <div class="form-group">
+
+                        <label for="academic_year">
+                            Academic Year
+                        </label>
+
+                        <input
+                            type="text"
+                            id="academic_year"
+                            name="academic_year"
+                            placeholder="Example: 2026-27"
+                            value="{{ academic['academic_year'] if academic else '' }}"
+                            required
+                        >
+
+                        <span class="form-help">
+                            Example: 2026-27
+                        </span>
+
+                    </div>
+
+
+                    <!-- Current Semester -->
+
+                    <div class="form-group">
+
+                        <label for="current_semester">
+                            Current Semester
+                        </label>
+
+                        <select
+                            id="current_semester"
+                            name="current_semester"
+                            required
+                        >
+
+                            <option value="">
+                                Select Current Semester
+                            </option>
+
+                            <option
+                                value="Semester I"
+                                {% if academic and academic['current_semester'] == 'Semester I' %}selected{% endif %}
+                            >
+                                Semester I
+                            </option>
+
+                            <option
+                                value="Semester II"
+                                {% if academic and academic['current_semester'] == 'Semester II' %}selected{% endif %}
+                            >
+                                Semester II
+                            </option>
+
+                            <option
+                                value="Semester III"
+                                {% if academic and academic['current_semester'] == 'Semester III' %}selected{% endif %}
+                            >
+                                Semester III
+                            </option>
+
+                            <option
+                                value="Semester IV"
+                                {% if academic and academic['current_semester'] == 'Semester IV' %}selected{% endif %}
+                            >
+                                Semester IV
+                            </option>
+
+                            <option
+                                value="Semester V"
+                                {% if academic and academic['current_semester'] == 'Semester V' %}selected{% endif %}
+                            >
+                                Semester V
+                            </option>
+
+                            <option
+                                value="Semester VI"
+                                {% if academic and academic['current_semester'] == 'Semester VI' %}selected{% endif %}
+                            >
+                                Semester VI
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Next Semester -->
+
+                    <div class="form-group">
+
+                        <label for="next_semester">
+                            Next Semester
+                        </label>
+
+                        <select
+                            id="next_semester"
+                            name="next_semester"
+                        >
+
+                            <option value="">
+                                Select Next Semester
+                            </option>
+
+                            <option
+                                value="Semester I"
+                                {% if academic and academic['next_semester'] == 'Semester I' %}selected{% endif %}
+                            >
+                                Semester I
+                            </option>
+
+                            <option
+                                value="Semester II"
+                                {% if academic and academic['next_semester'] == 'Semester II' %}selected{% endif %}
+                            >
+                                Semester II
+                            </option>
+
+                            <option
+                                value="Semester III"
+                                {% if academic and academic['next_semester'] == 'Semester III' %}selected{% endif %}
+                            >
+                                Semester III
+                            </option>
+
+                            <option
+                                value="Semester IV"
+                                {% if academic and academic['next_semester'] == 'Semester IV' %}selected{% endif %}
+                            >
+                                Semester IV
+                            </option>
+
+                            <option
+                                value="Semester V"
+                                {% if academic and academic['next_semester'] == 'Semester V' %}selected{% endif %}
+                            >
+                                Semester V
+                            </option>
+
+                            <option
+                                value="Semester VI"
+                                {% if academic and academic['next_semester'] == 'Semester VI' %}selected{% endif %}
+                            >
+                                Semester VI
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Status -->
+
+                    <div class="form-group">
+
+                        <label for="status">
+                            Academic Status
+                        </label>
+
+                        <select
+                            id="status"
+                            name="status"
+                            required
+                        >
+
+                            <option value="">
+                                Select Status
+                            </option>
+
+                            <option
+                                value="Active"
+                                {% if academic and academic['status'] == 'Active' %}selected{% endif %}
+                            >
+                                Active
+                            </option>
+
+                            <option
+                                value="Completed"
+                                {% if academic and academic['status'] == 'Completed' %}selected{% endif %}
+                            >
+                                Completed
+                            </option>
+
+                            <option
+                                value="Upcoming"
+                                {% if academic and academic['status'] == 'Upcoming' %}selected{% endif %}
+                            >
+                                Upcoming
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Full Width Information -->
+
+                    <div class="form-group full">
+
+                        <div class="info-box">
+
+                            <h4>📌 Academic Settings</h4>
+
+                            <p>
+                                These settings are used to maintain the
+                                current academic session and semester
+                                information in CampusCore. You can update
+                                them whenever the academic session changes.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= ACTION BUTTONS ================= -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                    >
+                        💾 Save Academic Settings
+                    </button>
+
+                    <a
+                        href="{{ url_for('settings') }}"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

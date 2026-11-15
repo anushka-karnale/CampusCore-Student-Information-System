@@ -1,0 +1,1402 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CampusCore | Course-wise Reports</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f6;
+            color: #26332f;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================== */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 245px;
+            background: #1f6f5b;
+            color: white;
+            padding: 25px 18px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .brand {
+            text-align: center;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .brand-icon {
+            font-size: 36px;
+        }
+
+        .brand h2 {
+            margin-top: 8px;
+            font-size: 22px;
+        }
+
+        .brand span {
+            display: block;
+            margin-top: 4px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .menu {
+            margin-top: 28px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 14px;
+            margin-bottom: 7px;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* =========================
+           LOGOUT - DASHBOARD STYLE
+        ========================== */
+
+        .logout {
+            margin-top: 25px !important;
+            background: rgba(0,0,0,0.12);
+        }
+
+        .logout:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* =========================
+           MAIN
+        ========================== */
+
+        .main {
+            margin-left: 245px;
+            width: calc(100% - 245px);
+            padding: 30px 35px;
+        }
+
+        /* =========================
+           PAGE TOP
+        ========================== */
+
+        .page-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            font-size: 27px;
+            margin-bottom: 6px;
+        }
+
+        .page-title p {
+            font-size: 13px;
+            color: #718079;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            color: #1f6f5b;
+            border: 1px solid #dfe8e4;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: #e9f5f0;
+        }
+
+        /* =========================
+           REPORT TYPE
+        ========================== */
+
+        .report-type {
+            background: white;
+            border: 1px solid #e2eae6;
+            border-radius: 10px;
+            padding: 17px 20px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .report-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef7f3;
+            border-radius: 9px;
+            font-size: 22px;
+        }
+
+        .report-type h3 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .report-type p {
+            color: #7b8883;
+            font-size: 11px;
+        }
+
+        /* =========================
+           FILTER SECTION
+        ========================== */
+
+        .filter-box {
+            background: white;
+            border: 1px solid #e2eae6;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+
+        .filter-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .filter-title h3 {
+            font-size: 16px;
+        }
+
+        .filter-title span {
+            color: #7b8883;
+            font-size: 11px;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr) auto;
+            gap: 14px;
+            align-items: end;
+        }
+
+        .field label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #65736d;
+            margin-bottom: 7px;
+        }
+
+        .field select {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #d9e3df;
+            border-radius: 7px;
+            padding: 0 10px;
+            background: white;
+            color: #26332f;
+            outline: none;
+            font-size: 12px;
+        }
+
+        .field select:focus {
+            border-color: #1f6f5b;
+        }
+
+        .generate-btn {
+            height: 40px;
+            border: none;
+            background: #1f6f5b;
+            color: white;
+            border-radius: 7px;
+            padding: 0 18px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .generate-btn:hover {
+            background: #185c4b;
+        }
+
+        /* =========================
+           REPORT SUMMARY
+        ========================== */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .summary-box {
+            background: white;
+            border: 1px solid #e2eae6;
+            border-radius: 10px;
+            padding: 17px;
+        }
+
+        .summary-box .label {
+            color: #7b8883;
+            font-size: 11px;
+            margin-bottom: 7px;
+        }
+
+        .summary-box .value {
+            font-size: 23px;
+            font-weight: 700;
+            color: #26332f;
+        }
+
+        .summary-box .small {
+            margin-top: 4px;
+            font-size: 10px;
+            color: #8a9690;
+        }
+
+        /* =========================
+           REPORT TABLE
+        ========================== */
+
+        .report-container {
+            background: white;
+            border: 1px solid #e2eae6;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 22px;
+        }
+
+        .report-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e8eeeb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .report-header h3 {
+            font-size: 16px;
+        }
+
+        .report-header p {
+            font-size: 11px;
+            color: #7b8883;
+            margin-top: 4px;
+        }
+
+        .print-btn {
+            border: 1px solid #dbe5e1;
+            background: white;
+            color: #52615b;
+            padding: 8px 12px;
+            border-radius: 7px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .print-btn:hover {
+            background: #f2f6f4;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            background: #f5f8f7;
+            color: #52615b;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            padding: 13px 14px;
+            text-align: left;
+            border-bottom: 1px solid #e4ebe8;
+        }
+
+        td {
+            padding: 14px;
+            font-size: 12px;
+            border-bottom: 1px solid #edf1ef;
+            color: #44514c;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .student {
+            font-weight: 600;
+            color: #26332f;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 5px;
+            background: #e9f5f0;
+            color: #1f6f5b;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .empty-row {
+            text-align: center;
+            padding: 35px !important;
+            color: #8a9690;
+        }
+
+        /* =========================
+           REPORT NOTICE
+        ========================== */
+
+        .report-notice {
+            margin: 18px 20px;
+            padding: 13px 15px;
+            border-radius: 8px;
+            background: #f4f8f6;
+            border: 1px solid #e0e9e5;
+            color: #65736d;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           BOTTOM INFORMATION
+        ========================== */
+
+        .bottom-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .note-box,
+        .actions-box {
+            background: white;
+            border: 1px solid #e2eae6;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .note-box h3,
+        .actions-box h3 {
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .note-box p {
+            color: #718079;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .action {
+            display: block;
+            width: 100%;
+            text-decoration: none;
+            padding: 11px 12px;
+            border: 1px solid #e0e8e4;
+            border-radius: 7px;
+            margin-bottom: 9px;
+            color: #394740;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            background: white;
+        }
+
+        .action:hover {
+            background: #f5f9f7;
+            border-color: #1f6f5b;
+            color: #1f6f5b;
+        }
+
+        .footer {
+            text-align: center;
+            color: #8a9690;
+            font-size: 11px;
+            padding: 10px;
+        }
+
+        /* =========================
+           PRINT
+        ========================== */
+
+        @media print {
+
+            .sidebar,
+            .back-btn,
+            .report-type,
+            .filter-box,
+            .bottom-section,
+            .print-btn,
+            .footer {
+                display: none !important;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            body {
+                background: white;
+            }
+
+            .report-container {
+                border: 1px solid #ccc;
+            }
+
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 1100px) {
+
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filters {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .bottom-section {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .page-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .main {
+                padding: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+====================================================== -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🎓
+        </div>
+
+        <h2>
+            CampusCore
+        </h2>
+
+        <span>
+            Faculty Panel
+        </span>
+
+    </div>
+
+
+    <nav class="menu">
+
+        <a href="{{ url_for('faculty_dashboard') }}">
+            📊
+            <span>Dashboard</span>
+        </a>
+
+        <a href="{{ url_for('faculty_profile') }}">
+            👤
+            <span>My Profile</span>
+        </a>
+
+        <a href="{{ url_for('faculty_students') }}">
+            👨‍🎓
+            <span>My Students</span>
+        </a>
+
+        <a href="{{ url_for('faculty_courses') }}">
+            📚
+            <span>My Courses</span>
+        </a>
+
+        <a href="{{ url_for('faculty_documents') }}">
+            📄
+            <span>Student Documents</span>
+        </a>
+
+        <a
+            href="{{ url_for('faculty_academic_reports') }}"
+            class="active"
+        >
+            📈
+            <span>Academic Reports</span>
+        </a>
+
+        <a href="{{ url_for('faculty_notifications') }}">
+            🔔
+            <span>Notifications</span>
+        </a>
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="logout"
+        >
+            🚪
+            <span>Logout</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+====================================================== -->
+
+<main class="main">
+
+
+    <!-- PAGE TITLE -->
+
+    <div class="page-top">
+
+        <div class="page-title">
+
+            <h1>
+                Academic Reports
+            </h1>
+
+            <p>
+                View course-wise student academic information.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('faculty_dashboard') }}"
+            class="back-btn"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- REPORT TYPE -->
+
+    <div class="report-type">
+
+        <div class="report-icon">
+            📚
+        </div>
+
+        <div>
+
+            <h3>
+                Course-wise Report
+            </h3>
+
+            <p>
+                View students according to their assigned courses,
+                semesters and academic years.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- FILTER -->
+
+    <section class="filter-box">
+
+        <div class="filter-title">
+
+            <h3>
+                Generate Course-wise Report
+            </h3>
+
+            <span>
+                Select filters to generate report
+            </span>
+
+        </div>
+
+
+        <div class="filters">
+
+
+            <!-- COURSE -->
+
+            <div class="field">
+
+                <label>
+                    Course
+                </label>
+
+                <select
+                    name="course"
+                    id="course"
+                >
+
+                    <option value="all">
+                        All Courses
+                    </option>
+
+
+                    {% set course_names = [] %}
+
+                    {% for course in courses %}
+
+                        {% if course['course_name'] not in course_names %}
+
+                            {% set _ = course_names.append(course['course_name']) %}
+
+                            <option value="{{ course['course_name'] }}">
+                                {{ course['course_name'] }}
+                            </option>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- SEMESTER -->
+
+            <div class="field">
+
+                <label>
+                    Semester
+                </label>
+
+                <select
+                    name="semester"
+                    id="semester"
+                >
+
+                    <option value="all">
+                        All Semesters
+                    </option>
+
+
+                    {% set semesters = [] %}
+
+                    {% for course in courses %}
+
+                        {% if course['semester'] not in semesters %}
+
+                            {% set _ = semesters.append(course['semester']) %}
+
+                            <option value="{{ course['semester'] }}">
+                                Semester {{ course['semester'] }}
+                            </option>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- ACADEMIC YEAR -->
+
+            <div class="field">
+
+                <label>
+                    Academic Year
+                </label>
+
+                <select
+                    name="academic_year"
+                    id="academic_year"
+                >
+
+                    <option value="all">
+                        All Academic Years
+                    </option>
+
+
+                    {% set academic_years = [] %}
+
+                    {% for course in courses %}
+
+                        {% if course['academic_year'] not in academic_years %}
+
+                            {% set _ = academic_years.append(course['academic_year']) %}
+
+                            <option value="{{ course['academic_year'] }}">
+                                {{ course['academic_year'] }}
+                            </option>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- GENERATE -->
+
+            <button
+                class="generate-btn"
+                type="button"
+                onclick="generateReport()"
+            >
+                Generate Report
+            </button>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section class="summary">
+
+
+        <!-- TOTAL STUDENTS -->
+
+        <div class="summary-box">
+
+            <div class="label">
+                Total Students
+            </div>
+
+            <div
+                class="value"
+                id="totalStudents"
+            >
+                {{ student_count }}
+            </div>
+
+            <div class="small">
+                Students in assigned courses
+            </div>
+
+        </div>
+
+
+        <!-- ASSIGNED COURSES -->
+
+        <div class="summary-box">
+
+            <div class="label">
+                Assigned Courses
+            </div>
+
+            <div class="value">
+                {{ courses|length }}
+            </div>
+
+            <div class="small">
+                Courses assigned to faculty
+            </div>
+
+        </div>
+
+
+        <!-- SEMESTERS -->
+
+        <div class="summary-box">
+
+            <div class="label">
+                Semesters
+            </div>
+
+            {% set summary_semesters = [] %}
+
+            {% for course in courses %}
+
+                {% if course['semester'] not in summary_semesters %}
+
+                    {% set _ = summary_semesters.append(course['semester']) %}
+
+                {% endif %}
+
+            {% endfor %}
+
+            <div class="value">
+                {{ summary_semesters|length }}
+            </div>
+
+            <div class="small">
+                Active assigned semesters
+            </div>
+
+        </div>
+
+
+        <!-- ACADEMIC YEARS -->
+
+        <div class="summary-box">
+
+            <div class="label">
+                Academic Years
+            </div>
+
+            {% set summary_years = [] %}
+
+            {% for course in courses %}
+
+                {% if course['academic_year'] not in summary_years %}
+
+                    {% set _ = summary_years.append(course['academic_year']) %}
+
+                {% endif %}
+
+            {% endfor %}
+
+            <div class="value">
+                {{ summary_years|length }}
+            </div>
+
+            <div class="small">
+                Academic years available
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- REPORT TABLE -->
+
+    <section class="report-container">
+
+
+        <!-- REPORT HEADER -->
+
+        <div class="report-header">
+
+            <div>
+
+                <h3 id="reportTitle">
+                    Course-wise Student Report
+                </h3>
+
+                <p id="reportSubtitle">
+                    Student information based on selected filters.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="print-btn"
+                onclick="window.print()"
+            >
+                🖨 Print Report
+            </button>
+
+        </div>
+
+
+        <!-- REPORT INFORMATION -->
+
+        <div class="report-notice">
+
+            <strong>Report Information:</strong>
+
+            This report displays student and course information
+            available in the CampusCore database. Faculty members
+            can filter the report by course, semester and academic year.
+
+        </div>
+
+
+        <!-- TABLE -->
+
+        <div class="table-wrapper">
+
+            <table id="reportTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Roll No
+                        </th>
+
+                        <th>
+                            Student Name
+                        </th>
+
+                        <th>
+                            Course
+                        </th>
+
+                        <th>
+                            Semester
+                        </th>
+
+                        <th>
+                            Academic Year
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Report Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="reportBody">
+
+
+                    {% if students %}
+
+
+                        {% for student in students %}
+
+                            {% set ns = namespace(year='Not Assigned') %}
+
+
+                            {% for course in courses %}
+
+                                {% if course['course_name'] == student['course'] %}
+
+                                    {% set ns.year = course['academic_year'] %}
+
+                                {% endif %}
+
+                            {% endfor %}
+
+
+                            <tr
+                                class="student-row"
+                                data-course="{{ student['course'] }}"
+                                data-semester="{{ student['semester'] }}"
+                                data-year="{{ ns.year }}"
+                            >
+
+                                <td>
+                                    {{ student['roll_no'] }}
+                                </td>
+
+                                <td class="student">
+                                    {{ student['name'] }}
+                                </td>
+
+                                <td>
+                                    {{ student['course'] }}
+                                </td>
+
+                                <td>
+                                    Semester {{ student['semester'] }}
+                                </td>
+
+                                <td>
+                                    {{ ns.year }}
+                                </td>
+
+                                <td>
+                                    {{ student['email'] or 'Not Available' }}
+                                </td>
+
+                                <td>
+
+                                    <span class="status">
+                                        Available
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+
+                        {% endfor %}
+
+
+                    {% else %}
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="empty-row"
+                            >
+
+                                No students found for the assigned courses.
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+
+                    <!-- FILTER EMPTY MESSAGE -->
+
+                    <tr
+                        id="noFilterResult"
+                        style="display:none;"
+                    >
+
+                        <td
+                            colspan="7"
+                            class="empty-row"
+                        >
+
+                            No students match the selected filters.
+
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- BOTTOM INFORMATION -->
+
+    <section class="bottom-section">
+
+
+        <!-- INFORMATION -->
+
+        <div class="note-box">
+
+            <h3>
+                About Course-wise Reports
+            </h3>
+
+            <p>
+
+                Course-wise Reports allows faculty members to review
+                students associated with their assigned courses.
+
+                Faculty can filter students by course, semester and
+                academic year and generate a printable report.
+
+                The report uses student and course information already
+                available in the CampusCore database.
+
+            </p>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="actions-box">
+
+            <h3>
+                Quick Actions
+            </h3>
+
+
+            <a
+                href="{{ url_for('faculty_students') }}"
+                class="action"
+            >
+                👨‍🎓 View My Students
+            </a>
+
+
+            <a
+                href="{{ url_for('faculty_courses') }}"
+                class="action"
+            >
+                📚 View My Courses
+            </a>
+
+
+            <button
+                type="button"
+                class="action"
+                onclick="window.print()"
+            >
+                🖨 Print Current Report
+            </button>
+
+
+        </div>
+
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        CampusCore Faculty Panel • Course-wise Reports
+
+    </div>
+
+
+</main>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+    function generateReport() {
+
+        const selectedCourse =
+            document.getElementById("course").value;
+
+        const selectedSemester =
+            document.getElementById("semester").value;
+
+        const selectedYear =
+            document.getElementById("academic_year").value;
+
+
+        const rows =
+            document.querySelectorAll(".student-row");
+
+
+        const noResult =
+            document.getElementById("noFilterResult");
+
+
+        let visibleCount = 0;
+
+
+        rows.forEach(function(row) {
+
+            const rowCourse =
+                row.getAttribute("data-course");
+
+            const rowSemester =
+                row.getAttribute("data-semester");
+
+            const rowYear =
+                row.getAttribute("data-year");
+
+
+            const courseMatch =
+                selectedCourse === "all" ||
+                rowCourse === selectedCourse;
+
+
+            const semesterMatch =
+                selectedSemester === "all" ||
+                rowSemester === selectedSemester;
+
+
+            const yearMatch =
+                selectedYear === "all" ||
+                rowYear === selectedYear;
+
+
+            if (
+                courseMatch &&
+                semesterMatch &&
+                yearMatch
+            ) {
+
+                row.style.display = "";
+
+                visibleCount++;
+
+            }
+            else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+
+        if (visibleCount === 0) {
+
+            noResult.style.display = "table-row";
+
+        }
+        else {
+
+            noResult.style.display = "none";
+
+        }
+
+
+        document.getElementById("totalStudents").textContent =
+            visibleCount;
+
+
+        updateReportSubtitle(
+            selectedCourse,
+            selectedSemester,
+            selectedYear
+        );
+
+    }
+
+
+    function updateReportSubtitle(
+        course,
+        semester,
+        year
+    ) {
+
+        let text = "Showing ";
+
+
+        if (course === "all") {
+
+            text += "all courses";
+
+        }
+        else {
+
+            text += course;
+
+        }
+
+
+        if (semester !== "all") {
+
+            text +=
+                " • Semester " +
+                semester;
+
+        }
+
+
+        if (year !== "all") {
+
+            text +=
+                " • " +
+                year;
+
+        }
+
+
+        text += ".";
+
+
+        document.getElementById(
+            "reportSubtitle"
+        ).textContent = text;
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
+```

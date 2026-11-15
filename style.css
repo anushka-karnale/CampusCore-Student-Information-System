@@ -1,0 +1,764 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f7f9;
+    color: #1f2937;
+}
+
+
+/* =========================================================
+   LOGIN PAGE
+========================================================= */
+
+.login-page {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0b3d2e,
+            #155d46,
+            #e8f3ef
+        );
+}
+
+
+/* =========================================================
+   LOGIN CONTAINER
+========================================================= */
+
+.login-container {
+    width: 100%;
+    max-width: 1050px;
+    min-height: 620px;
+
+    display: grid;
+    grid-template-columns: 42% 58%;
+
+    background: white;
+
+    border-radius: 24px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.22);
+}
+
+
+/* =========================================================
+   BRAND SECTION
+========================================================= */
+
+.login-brand {
+    background:
+        linear-gradient(
+            160deg,
+            #0b3d2e,
+            #145c43
+        );
+
+    color: white;
+
+    padding: 70px 50px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+
+.brand-icon {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    border-radius: 18px;
+
+    font-size: 34px;
+
+    margin-bottom: 28px;
+}
+
+
+.login-brand h1 {
+    font-size: 42px;
+    letter-spacing: -1px;
+
+    margin-bottom: 15px;
+}
+
+
+.login-brand h2 {
+    font-size: 22px;
+    font-weight: 500;
+
+    line-height: 1.5;
+
+    margin-bottom: 22px;
+}
+
+
+.login-brand p {
+    color: #d7ebe3;
+
+    line-height: 1.7;
+
+    font-size: 15px;
+
+    max-width: 360px;
+}
+
+
+.brand-line {
+    width: 55px;
+    height: 3px;
+
+    background: #8bc9b0;
+
+    margin: 35px 0 15px;
+}
+
+
+.login-brand span {
+    font-size: 13px;
+
+    letter-spacing: 1.5px;
+
+    color: #b9ddd0;
+}
+
+
+/* =========================================================
+   LOGIN SECTION
+========================================================= */
+
+.login-section {
+    padding: 55px 65px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+
+.login-header {
+    margin-bottom: 28px;
+}
+
+
+.login-header h2 {
+    font-size: 30px;
+
+    color: #183b2d;
+
+    margin-bottom: 8px;
+}
+
+
+.login-header p {
+    color: #7a858c;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   ROLE BUTTONS
+========================================================= */
+
+.role-selection {
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 30px;
+}
+
+
+.role-btn {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 13px 10px;
+
+    border: 1px solid #dce5e1;
+
+    background: #f8faf9;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition: 0.25s;
+}
+
+
+.role-btn span {
+    font-size: 22px;
+}
+
+
+.role-btn strong {
+    display: block;
+
+    color: #30463c;
+
+    font-size: 14px;
+}
+
+
+.role-btn small {
+    display: block;
+
+    color: #8a9691;
+
+    font-size: 10px;
+
+    margin-top: 3px;
+}
+
+
+.role-btn:hover {
+    border-color: #287a5b;
+}
+
+
+.role-btn.active {
+    background: #eaf5ef;
+
+    border-color: #287a5b;
+
+    box-shadow:
+        0 5px 15px rgba(40, 122, 91, 0.12);
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.login-form > label {
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #43554d;
+
+    margin-bottom: 7px;
+}
+
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+
+    width: 100%;
+
+    height: 48px;
+
+    border: 1px solid #dce3e0;
+
+    border-radius: 10px;
+
+    padding: 0 15px;
+
+    font-size: 14px;
+
+    outline: none;
+
+    margin-bottom: 17px;
+
+    transition: 0.2s;
+}
+
+
+.login-form input:focus {
+
+    border-color: #287a5b;
+
+    box-shadow:
+        0 0 0 3px rgba(40, 122, 91, 0.08);
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.login-form select {
+
+    width: 100%;
+
+    height: 48px;
+
+    border: 1px solid #dce3e0;
+
+    border-radius: 10px;
+
+    padding: 0 15px;
+
+    font-size: 14px;
+
+    outline: none;
+
+    background: white;
+
+    color: #1f2937;
+
+    margin-bottom: 17px;
+
+    cursor: pointer;
+}
+
+
+.login-form select:focus {
+
+    border-color: #287a5b;
+
+    box-shadow:
+        0 0 0 3px rgba(40, 122, 91, 0.08);
+}
+
+
+/* =========================================================
+   FORM OPTIONS
+========================================================= */
+
+.form-options {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 22px;
+
+    font-size: 12px;
+}
+
+
+.remember {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: #727d78;
+}
+
+
+.remember input {
+    accent-color: #287a5b;
+}
+
+
+.form-options a {
+
+    color: #287a5b;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+
+.form-options a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+   Original login button - unchanged
+========================================================= */
+
+.login-btn {
+
+    width: 100%;
+
+    height: 50px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #176044,
+            #287a5b
+        );
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    transition: 0.25s;
+}
+
+
+.login-btn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(40, 122, 91, 0.25);
+}
+
+
+.login-btn span {
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.login-footer {
+
+    text-align: center;
+
+    color: #9aa39f;
+
+    font-size: 11px;
+
+    margin-top: 25px;
+}
+
+
+/* =========================================================
+   PASSWORD BOX
+========================================================= */
+
+.password-box {
+
+    position: relative;
+
+    width: 100%;
+}
+
+
+.password-box input {
+
+    padding-right: 50px !important;
+
+    margin-bottom: 17px !important;
+}
+
+
+.password-toggle {
+
+    position: absolute;
+
+    right: 12px;
+
+    top: 0;
+
+    height: 48px;
+
+    width: 35px;
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+========================================================= */
+
+.login-error {
+
+    display: block;
+
+    background: #fff1f1;
+
+    color: #d93025;
+
+    border: 1px solid #f5c2c2;
+
+    border-radius: 8px;
+
+    padding: 10px 14px;
+
+    margin-top: 10px;
+
+    margin-bottom: 15px;
+
+    font-size: 14px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   FORGOT PASSWORD PAGE
+   Separate styling - does NOT change login page
+========================================================= */
+
+.forgot-form {
+    width: 100%;
+}
+
+
+.forgot-form input[type="text"],
+.forgot-form input[type="password"],
+.forgot-form select {
+
+    width: 100%;
+
+    height: 48px;
+
+    margin-bottom: 17px;
+
+    padding: 0 15px;
+
+    border: 1px solid #dce3e0;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    outline: none;
+
+    background: white;
+}
+
+
+.forgot-form input:focus,
+.forgot-form select:focus {
+
+    border-color: #287a5b;
+
+    box-shadow:
+        0 0 0 3px rgba(40, 122, 91, 0.08);
+}
+
+
+/* =========================================================
+   RESET PASSWORD BUTTON
+========================================================= */
+
+.forgot-reset-btn {
+
+    width: 100%;
+
+    height: 50px;
+
+    margin-top: 5px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #176044,
+            #287a5b
+        );
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: 0.25s;
+}
+
+
+.forgot-reset-btn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(40, 122, 91, 0.25);
+}
+
+
+/* =========================================================
+   BACK TO LOGIN
+========================================================= */
+
+.forgot-back-container {
+
+    width: 100%;
+
+    text-align: center;
+
+    margin-top: 18px;
+}
+
+
+.forgot-back {
+
+    color: #287a5b;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+.forgot-back:hover {
+
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   FORGOT PASSWORD ERROR
+========================================================= */
+
+.forgot-error {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    background: #fff1f1;
+
+    color: #d93025;
+
+    border: 1px solid #f5c2c2;
+
+    border-radius: 8px;
+
+    padding: 10px 14px;
+
+    margin-bottom: 15px;
+
+    font-size: 14px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .login-container {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .login-brand {
+
+        padding: 40px;
+    }
+
+
+    .login-brand h1 {
+
+        font-size: 32px;
+    }
+
+
+    .login-section {
+
+        padding: 40px;
+    }
+}
+
+
+@media (max-width: 520px) {
+
+    .login-page {
+
+        padding: 15px;
+    }
+
+
+    .login-brand,
+    .login-section {
+
+        padding: 30px 25px;
+    }
+
+
+    .role-selection {
+
+        flex-direction: column;
+    }
+
+
+    .role-btn {
+
+        width: 100%;
+    }
+}
